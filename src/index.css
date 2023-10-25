@@ -1,4 +1,4 @@
-body {
+* body {
   margin: 0;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,10 +10,11 @@ code {
     monospace;
 }
 
-.font-container { 
-  font-family: Roboto, sans-serif; 
+.font-container {
+  font-family: Roboto, sans-serif;
 }
-.navbar-bg{
+
+.navbar-bg {
   background: #fbb8db
 }
 
@@ -56,9 +57,31 @@ code {
     height: 100vh !important;
   }
 }
+
 @media (min-width: 769px) {
   .gradient-custom-2 {
     border-top-right-radius: .3rem;
     border-bottom-right-radius: .3rem;
   }
+}
+
+/* ::-webkit-scrollbar {
+  width: 0.1rem;
+  height: 0.1rem;
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593) 0 32px;
+  border-radius: 10px;
+
+} */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, #ffffff);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(transparent, #ee7724, #d8363a, #dd3675, #b44593);
 }
