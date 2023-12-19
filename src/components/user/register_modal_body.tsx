@@ -7,9 +7,22 @@ import {
     from 'mdb-react-ui-kit';
 import logo from '../../assets/brand/logo-no-background.png';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
 
 
 function RegisterModalBody(props) {
+
+    const [isClickedForOTP, setisClickedForOTP] = useState(false);
+    const handleButtonClick = () => {setisClickedForOTP(true);};
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [password, setPassword] = useState('');
+  
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+
     return (
         <div className="d-flex flex-column mx-5 mt-0">
 
@@ -32,19 +45,22 @@ function RegisterModalBody(props) {
             </MDBRow>
             <p className='text-dark mt-4'><b>Register with us</b></p>
 
-
-            <MDBInput wrapperClass='mb-4' label='First Name' id='register_form_fname' type='text'/>
-            <MDBInput wrapperClass='mb-4' label='Last Name' id='register_form_lname' type='text'/>
-            <MDBInput wrapperClass='mb-4' label='Email address' id='register_form_email' type='email'/>
-            <MDBInput wrapperClass='mb-4' label='Password' id='register_form_password_1' type='password'/>
-            <MDBInput wrapperClass='mb-4' label='Retype Password' id='register_form_password_2' type='password'/>
+            <MDBInput wrapperClass='mb-4' label='First Name' id='register_form_fname' type='text' disabled={isClickedForOTP}/>
+            <MDBInput wrapperClass='mb-4' label='Last Name' id='register_form_lname' type='text' disabled={isClickedForOTP}/>
+            <MDBInput wrapperClass='mb-4' label='Email address' id='register_form_email' type='email' disabled={isClickedForOTP}/>
+            <MDBInput wrapperClass='mb-4' label='Password' id='register_form_password_1' type='password' disabled={isClickedForOTP}/>
+            <MDBInput wrapperClass='mb-4' label='Retype Password' id='register_form_password_2' type='password' disabled={isClickedForOTP}/>
+            
+            {isClickedForOTP &&
+            <MDBInput wrapperClass='mb-4' label='Enter OTP' id='register_form_otp' type='text'/>}
 
             <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
                 <p className="mb-0 text-dark">Already have an account?</p>
-                <Link to='/register'><MDBBtn outline className='mx-2' color='danger'>
-                    SIGN IN
+                {/* <Link to='/register'> */}
+                    <MDBBtn outline className='mx-2' onClick={handleButtonClick} color='info'>
+                    {isClickedForOTP ? 'Verify OTP' : 'SIGN IN'}
                 </MDBBtn>
-                </Link>
+                {/* </Link> */}
             </div>
 
         </div>
