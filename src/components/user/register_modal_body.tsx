@@ -1,185 +1,248 @@
 import {
-    MDBBtn,
-    MDBRow,
-    MDBInput,
-    MDBIcon
-}
-    from 'mdb-react-ui-kit';
-import logo from '../../assets/brand/logo-no-background.png';
-import { useState } from 'react';
-import { handleRegister } from '../../services/api';
+  MDBBtn,
+  MDBRow,
+  MDBInput,
+  MDBIcon,
+  MDBValidation,
+  MDBValidationItem,
+} from "mdb-react-ui-kit";
+import logo from "../../assets/brand/logo-no-background.png";
+import { useEffect, useState } from "react";
+import { postData } from "../../services/network_services";
+import { Alert } from "@mui/material";
+// import { handleRegister } from '../../services/api';
 
+function RegisterModalBody() {
+  const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
+  const [responseData, setResponseData] = useState<ApiResponseType>();
+  //   const [error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  const [formData, setFormData] = useState<UserDataType>({
+    fname: "",
+    lname: "",
+    email: "",
+    password1: "",
+    password2: "",
+  });
 
-function RegisterModalBody(props: any) {
+  const handleButtonClick = (e: any) => {
+    e.preventDefault();
+    handleRegisterClick(formData);
+  };
 
-    const [isClickedForOTP, setisClickedForOTP] = useState(false);
-    const handleButtonClick = (e: any) => {
-        e.preventDefault();
+  useEffect(() => {
+    setLoading(true);
+  }, []);
+
+  const handleRegisterClick = async (reqUserData: UserDataType) => {
+    try {
+      debugger;
+      const requestData = JSON.stringify({
+        username: reqUserData.lname.toLowerCase(),
+        email: reqUserData.email,
+        fname: reqUserData.fname,
+        lname: reqUserData.lname,
+        password1: reqUserData.password1,
+        password2: reqUserData.password2,
+      });
+      const data = await postData(
+        "https://auth-stg.onrender.com/api/v2/create-users",
+        requestData
+      );
+      if (data?.status == "1") {
         setisClickedForOTP(true);
-        handleRegister(formData);
-    };
+        setResponseData(data);
+        setLoading(false);
+      } else {
+        setisClickedForOTP(false);
+        // const errorText = "Somethiong went wrong!";
+        // setError(errorText);
+        setLoading(false);
+      }
+    } catch (error) {
+      //   setError(error);
+    }
+  };
 
-    const [formData, setFormData] = useState<UserDataType>({
-        fname: '',
-        lname: '',
-        email: '',
-        password1: '',
-        password2: ''
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setFormData({
+      ...formData,
+      [id]: value,
     });
+  };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = event.target;
-        setFormData({
-            ...formData,
-            [id]: value,
-        });
-    };
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
-    return (
-        <div className="d-flex flex-column mx-5 mt-0">
+  return (
+    <div className="d-flex flex-column mx-5 mt-0">
+      <div className="text-center text-dark">
+        <img src={logo} style={{ width: "185px" }} alt="logo" />
+        <h5 className="mt-4 pb-1 ">
+          Get access to your Orders, Wishlist and Recommendations
+        </h5>
+      </div>
+      <h5 className="mt-2 pb-1 text-dark text-center">Sign up with:</h5>
+      <MDBRow className="justify-content-center">
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#dd4b39" }}
+          href="#"
+        >
+          <MDBIcon fab icon="google" />
+        </MDBBtn>
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#3b5998" }}
+          href="#"
+        >
+          <MDBIcon fab icon="facebook-f" />
+        </MDBBtn>
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#ac2bac" }}
+          href="#"
+        >
+          <MDBIcon fab icon="instagram" />
+        </MDBBtn>
+      </MDBRow>
 
-            <div className="text-center text-dark">
-                <img src={logo}
-                    style={{ width: '185px' }} alt="logo" />
-                <h5 className="mt-4 pb-1 ">Get access to your Orders, Wishlist and Recommendations</h5>
-            </div>
-            <h5 className="mt-2 pb-1 text-dark text-center">Sign up with:</h5>
-            <MDBRow className='justify-content-center'>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#dd4b39' }} href='#'>
-                    <MDBIcon fab icon='google' />
-                </MDBBtn>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#3b5998' }} href='#'>
-                    <MDBIcon fab icon='facebook-f' />
-                </MDBBtn>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#ac2bac' }} href='#'>
-                    <MDBIcon fab icon='instagram' />
-                </MDBBtn>
-            </MDBRow>
-            <p className='text-dark mt-4'><b>Register with us</b></p>
-            <form>
+      {loading ? (
+        <></>
+      ) : responseData?.status == "1" ? (
+        <Alert severity="success" className="mt-4">
+          Verification Email has been sent successfully to "{formData.email}".
+          Please verify your email to access the account.{" "}
+        </Alert>
+      ) : (
+        <Alert severity="error" className="mt-4">
+          Error !
+        </Alert>
+      )}
 
-                {/* <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Email"
-                    onChange={handleInputChange}
-                    value={formData.email}
-                /> */}
-                <MDBInput wrapperClass='mb-4' label='First Name' id='fname' type='text' disabled={isClickedForOTP} onChange={handleInputChange}  defaultValue={formData.fname}/>
-                <MDBInput wrapperClass='mb-4' label='Last Name' id='lname' type='text' disabled={isClickedForOTP} onChange={handleInputChange}  defaultValue={formData.lname}/>
-                <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email' disabled={isClickedForOTP} onChange={handleInputChange}  defaultValue={formData.email}/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='password1' type='password' disabled={isClickedForOTP} onChange={handleInputChange}  defaultValue={formData.password1}/>
-                <MDBInput wrapperClass='mb-4' label='Retype Password' id='password2' type='password' disabled={isClickedForOTP} onChange={handleInputChange}  defaultValue={formData.password2}/>
+      {/* {error != "" && error != null && (
+        <Alert severity="error" className="mt-4">
+          {error}!
+        </Alert>
+      )} */}
 
-                {isClickedForOTP &&
-                    <MDBInput wrapperClass='mb-4' label='Enter OTP' id='register_form_otp' type='text' />}
+      <p className="text-dark mt-4">
+        <b>Register with us</b>
+      </p>
+      <form>
+        <MDBValidation noValidate>
+          <MDBValidationItem feedback="Please enter first name." invalid>
+            <MDBInput
+              wrapperClass="mb-4"
+              label="First Name"
+              id="fname"
+              type="text"
+              disabled={isClickedForOTP}
+              onChange={handleInputChange}
+              defaultValue={formData.fname}
+              required
+            />
+          </MDBValidationItem>
+          <MDBValidationItem feedback="Please enter last name." invalid>
+            <MDBInput
+              wrapperClass="mb-4"
+              label="Last Name"
+              id="lname"
+              type="text"
+              disabled={isClickedForOTP}
+              onChange={handleInputChange}
+              defaultValue={formData.lname}
+              required
+            />
+          </MDBValidationItem>
+          <></>
+          <MDBValidationItem feedback="Please choose an email." invalid>
+            <MDBInput
+              wrapperClass="mb-4"
+              label="Email address"
+              id="email"
+              type="email"
+              disabled={isClickedForOTP}
+              onChange={(e) => {
+                validateEmail(formData.email);
+                handleInputChange(e);
+              }}
+              defaultValue={formData.email}
+              required
+            />
+          </MDBValidationItem>
+          <MDBValidationItem feedback="Please choose a password." invalid>
+            <MDBInput
+              wrapperClass="mb-4"
+              label="Password"
+              id="password1"
+              type="password"
+              disabled={isClickedForOTP}
+              onChange={handleInputChange}
+              defaultValue={formData.password1}
+              required
+            />
+          </MDBValidationItem>
+          <MDBValidationItem
+            feedback="Please choose a confirnm password."
+            invalid
+          >
+            <MDBInput
+              wrapperClass="mb-4"
+              label="Confirm Password"
+              id="password2"
+              type="password"
+              disabled={isClickedForOTP}
+              onChange={handleInputChange}
+              defaultValue={formData.password2}
+              required
+            />
+          </MDBValidationItem>
 
-                <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
-                    <p className="mb-0 text-dark">Already have an account?</p>
-                    {/* <Link to='/register'> */}
-                    <MDBBtn outline className='mx-2' onClick={handleButtonClick} color='info' type="submit">
-                        {isClickedForOTP ? 'Verify OTP' : 'SIGN IN'}
-                    </MDBBtn>
-                    {/* </Link> */}
-                </div>
-            </form>
+          {isClickedForOTP && (
+            <MDBInput
+              wrapperClass="mb-4"
+              label="Enter OTP"
+              id="register_form_otp"
+              type="text"
+            />
+          )}
 
-        </div>
+          <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
+            {!isClickedForOTP && (
+              <p className="mb-0 text-dark">Already have an account?</p>
+            )}
 
-    );
+            {isClickedForOTP ? (
+              <MDBBtn outline className="mx-2" color="info" type="submit">
+                Verify OTP
+              </MDBBtn>
+            ) : (
+              <MDBBtn
+                outline
+                className="mx-2"
+                onClick={handleButtonClick}
+                color="info"
+                type="submit"
+              >
+                SIGN IN
+              </MDBBtn>
+            )}
+          </div>
+        </MDBValidation>
+      </form>
+    </div>
+  );
 }
 
 export default RegisterModalBody;
-
-
-// import React, { useState } from 'react';
-// import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';;
-
-// interface FormData {
-//   name: string;
-//   email: string;
-//   // Add other fields as needed
-// }
-
-// const RegisterModalBody: React.FC = () => {
-//   const [formData, setFormData] = useState<FormData>({
-//     name: '',
-//     email: '',
-//     // Initialize other fields here
-//   });
-
-//   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-
-//     try {
-
-//         const mydata = {
-//             "username":"onimesh",
-//             "email": "tomec86720@aseall.com",
-//             "fname": "onimesh",
-//             "lname": "flutter",
-//             "password1": "12345678",
-//             "password2": "12345678"
-//         }
-
-//       const response = await fetch('/api/v2/create-users', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           // Add other headers if needed
-//         },
-//         body: JSON.stringify(mydata),
-//       });
-
-//       if (response.ok) {
-//         // Handle success, maybe show a success message
-//         console.log('Data sent successfully');
-//       } else {
-//         // Handle error response from the server
-//         console.error('Failed to send data');
-//       }
-//     } catch (error) {
-//       // Handle network errors or other exceptions
-//       console.error('Error occurred:', error);
-//     }
-//   };
-
-//   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = event.target;
-//     setFormData({
-//       ...formData,
-//       [name]: value,
-//     });
-//   };
-
-//   return (
-//     <MDBContainer>
-//       <MDBRow>
-//         <MDBCol md="6">
-//           <form onSubmit={handleSubmit}>
-//             <MDBInput
-//               label="Your name"
-//               name="name"
-//               value={formData.name}
-//               onChange={handleInputChange}
-//               required
-//             />
-//             <MDBInput
-//               label="Your email"
-//               name="email"
-//               value={formData.email}
-//               onChange={handleInputChange}
-//               required
-//             />
-//             {/* Add other input fields using MDBInput */}
-//             <MDBBtn type="submit">Submit</MDBBtn>
-//           </form>
-//         </MDBCol>
-//       </MDBRow>
-//     </MDBContainer>
-//   );
-// };
-
-// export default RegisterModalBody;
