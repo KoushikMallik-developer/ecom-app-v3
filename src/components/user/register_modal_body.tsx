@@ -10,13 +10,14 @@ import logo from "../../assets/brand/logo-no-background.png";
 import { useEffect, useState } from "react";
 import { postData } from "../../services/network_services";
 import { Alert } from "@mui/material";
-// import { handleRegister } from '../../services/api';
+import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
 
 function RegisterModalBody() {
   const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
   const [responseData, setResponseData] = useState<ApiResponseType>();
   //   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [apiLoading, setAPILoading] = useState<boolean>(false);
 
   const [formData, setFormData] = useState<UserDataType>({
     fname: "",
@@ -24,6 +25,7 @@ function RegisterModalBody() {
     email: "",
     password1: "",
     password2: "",
+    otp: "",
   });
 
   const handleButtonClick = (e: any) => {
@@ -37,7 +39,6 @@ function RegisterModalBody() {
 
   const handleRegisterClick = async (reqUserData: UserDataType) => {
     try {
-      debugger;
       const requestData = JSON.stringify({
         username: reqUserData.lname.toLowerCase(),
         email: reqUserData.email,
@@ -46,31 +47,62 @@ function RegisterModalBody() {
         password1: reqUserData.password1,
         password2: reqUserData.password2,
       });
+
+      setAPILoading(true);
+
       const data = await postData(
-        "https://auth-stg.onrender.com/api/v2/create-users",
-        requestData
+        register_apiURL,
+        requestData,
+        "handleRegisterClick"
       );
+
+      console.log("handleRegisterClick: ", data);
       if (data?.status == "1") {
         setisClickedForOTP(true);
         setResponseData(data);
+        setAPILoading(false);
         setLoading(false);
       } else {
+        setAPILoading(false);
         setisClickedForOTP(false);
-        // const errorText = "Somethiong went wrong!";
-        // setError(errorText);
         setLoading(false);
       }
     } catch (error) {
-      //   setError(error);
+      setAPILoading(false);
+      console.error("handleRegisterClick catch: ", error);
+    }
+  };
+
+  const onOTPClick = async () => {
+    try {
+      debugger;
+      const requestData = JSON.stringify({
+        "email": formData.email,
+        "otp": formData.otp,
+      });
+      setAPILoading(true);
+      const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick");
+      console.log("onOTPClick data: ", data);
+      if (data?.status == "1") {
+        setResponseData(data);
+        setAPILoading(false);
+      } else {
+        setAPILoading(false);
+      }
+    } catch (error) {
+      setAPILoading(false);
+      console.error("handleRegisterClick catch: ", error);
     }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("handleInputChange: ", event.target);
     const { id, value } = event.target;
     setFormData({
       ...formData,
       [id]: value,
     });
+    console.log("handleInputChange complete: ", formData, value);
   };
 
   const validateEmail = (email: string) => {
@@ -213,8 +245,10 @@ function RegisterModalBody() {
             <MDBInput
               wrapperClass="mb-4"
               label="Enter OTP"
-              id="register_form_otp"
+              id="otp"
               type="text"
+              onChange={handleInputChange}
+              required
             />
           )}
 
@@ -223,20 +257,32 @@ function RegisterModalBody() {
               <p className="mb-0 text-dark">Already have an account?</p>
             )}
 
-            {isClickedForOTP ? (
-              <MDBBtn outline className="mx-2" color="info" type="submit">
-                Verify OTP
-              </MDBBtn>
-            ) : (
-              <MDBBtn
-                outline
-                className="mx-2"
-                onClick={handleButtonClick}
-                color="info"
-                type="submit"
-              >
-                SIGN IN
-              </MDBBtn>
+            {apiLoading && <>Please wait....</>}
+
+            {!apiLoading && (
+              <>
+                {isClickedForOTP ? (
+                  <MDBBtn
+                    outline
+                    className="mx-2"
+                    color="info"
+                    type="submit"
+                    onClick={onOTPClick}
+                  >
+                    Verify OTP
+                  </MDBBtn>
+                ) : (
+                  <MDBBtn
+                    outline
+                    className="mx-2"
+                    onClick={handleButtonClick}
+                    color="info"
+                    type="submit"
+                  >
+                    SIGN IN
+                  </MDBBtn>
+                )}
+              </>
             )}
           </div>
         </MDBValidation>

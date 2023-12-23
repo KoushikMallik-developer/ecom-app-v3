@@ -33,7 +33,6 @@ export const handleRegister = async (formData: UserDataType) => {
       return false;
     }
   } catch (error) {
-    debugger;
     console.error("Error : ", error);
     return false;
   }
@@ -112,7 +111,6 @@ export const getUserProfile = async () => {
   try {
     const response = await fetch(`${BASE_URL}/profile`);
     const data = await response.json();
-    debugger;
     return data;
   } catch (error) {
     throw new Error("Error fetching user profile:");
