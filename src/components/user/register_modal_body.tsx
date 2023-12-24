@@ -30,16 +30,16 @@ function RegisterModalBody(props: any) {
     otp: "",
   });
 
-  const handleButtonClick = (e: any) => {
+  const handleButtonClick = async (e: any) => {
     e.preventDefault();
-    handleRegisterClick(formData);
+    await handleRegister(formData);
   };
 
   useEffect(() => {
     // setLoading(true);
   }, []);
 
-  const handleRegisterClick = async (reqUserData: UserDataType) => {
+  const handleRegister = async (reqUserData: UserDataType) => {
     try {
       const requestData = JSON.stringify({
         username: reqUserData.lname.toLowerCase(),
@@ -55,7 +55,7 @@ function RegisterModalBody(props: any) {
         requestData,
         "handleRegisterClick"
       );
-      console.log("handleRegisterClick: ", data);
+      // console.log("handleRegisterClick: ", data);
       if (data?.statusCode == "201") {
         setRegisterError("");
         setisClickedForOTP(true);
@@ -75,31 +75,37 @@ function RegisterModalBody(props: any) {
   };
 
   const onOTPClick = async () => {
+    await handleOTP();
+    debugger;
+    closePopup();
+  };
+
+  const closePopup = async () => {
+    props.toggleShowSignUpModal;
+  };
+
+  const handleOTP = async () => {
     try {
       const requestData = JSON.stringify({
         email: formData.email,
         otp: formData.otp,
       });
       setAPILoading(true);
-      const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick")
+      const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick");
       console.log("onOTPClick data: ", data);
       if (data?.status == true) {
-        setAPILoading(false)
-        setResponseData(data)
-        debugger
-        
-        console.log("localStorage setItem: ", JSON.stringify(formData))
-        localStorage.setItem("user_info", JSON.stringify(formData))
+        setAPILoading(false);
+        setResponseData(data);
 
-        console.log("localStorage getItem: ", localStorage.getItem('user_info'))
-        
-        props.toggleShowSignUpModal
+        console.log("localStorage before setItem: ", JSON.stringify(formData));
+        localStorage.setItem("user_info", JSON.stringify(formData));
       } else {
-        setOTPError(data?.response["errorMessage"])
+        setAPILoading(false);
+        setOTPError(data?.response["errorMessage"]);
       }
     } catch (error) {
       setAPILoading(false);
-      console.error("handleRegisterClick catch: ", error)
+      console.error("handleRegisterClick catch: ", error);
     }
   };
 

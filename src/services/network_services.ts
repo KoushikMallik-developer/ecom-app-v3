@@ -1,6 +1,9 @@
 async function postData(url: string, requestData: any, apiTag: String) {
   try {
-    debugger
+    //debugger
+    console.log("apiTag : ", apiTag);
+    console.log("requestData : ", requestData);
+    
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -16,10 +19,6 @@ async function postData(url: string, requestData: any, apiTag: String) {
       statusCode: response.status.toString(),
     };
 
-    // const user1 = plainToClass(ApiResponseType, finalResp);
-
-    console.log("apiTag : ", apiTag);
-    console.log("requestData : ", requestData);
     console.log("final response : ", finalResp);
 
     return finalResp;

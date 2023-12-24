@@ -21,7 +21,7 @@ import logo from "../../assets/brand/logo-no-background.png";
 import Login from "../user/login";
 import Register from "../user/register";
 import Cart from "../cart/cart_details";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar: React.FC = () => {
   const [signInModal, setSignInModal] = useState(false);
@@ -35,6 +35,13 @@ const Navbar: React.FC = () => {
   const toggleShowSignUpModal = () => {
     setSignUpModal(!signUpModal);
   };
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user_info"));
+    if (userData) {
+      setIsLoggedIn(true);
+    }
+  });
 
   const [showCartModal, setShowCartModal] = useState(false);
 
@@ -52,9 +59,18 @@ const Navbar: React.FC = () => {
       </MDBDropdownItem>
     </>
   );
+
+  const clearLocalData = () => {
+    try {
+      localStorage.clear();
+    } catch (error) {
+      console.error();
+    }
+  };
+
   if (isLoggedIn) {
     logout_btn_nav_item = (
-      <MDBDropdownItem link childTag="button">
+      <MDBDropdownItem link childTag="button" onClick={clearLocalData}>
         Logout
       </MDBDropdownItem>
     );
@@ -107,7 +123,7 @@ const Navbar: React.FC = () => {
                     className="text-light"
                     onClick={toggleShowSignUpModal}
                   >
-                    {!(JSON.parse(localStorage.getItem("user_info"))) && (
+                    {!isLoggedIn && (
                       <>
                         <MDBIcon
                           className="mx-2"
