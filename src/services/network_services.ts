@@ -12,7 +12,7 @@ async function postData(url: string, requestData: any, apiTag: String) {
 
     const finalResp: ApiResponseType = {
       response: await response.json(),
-      status: response.ok ? "1" : "0",
+      status: response.ok,
       statusCode: response.status.toString(),
     };
 

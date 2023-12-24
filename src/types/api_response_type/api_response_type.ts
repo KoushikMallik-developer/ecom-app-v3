@@ -1,5 +1,5 @@
 type ApiResponseType = {
   response: any;
-  status: string;
+  status: boolean;
   statusCode: string;
 };

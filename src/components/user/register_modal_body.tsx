@@ -12,12 +12,14 @@ import { postData } from "../../services/network_services";
 import { Alert } from "@mui/material";
 import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
 
-function RegisterModalBody() {
+function RegisterModalBody(props: any) {
   const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
   const [responseData, setResponseData] = useState<ApiResponseType>();
-  //   const [error, setError] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
   const [apiLoading, setAPILoading] = useState<boolean>(false);
+
+  const [registerError, setRegisterError] = useState<String>("");
+  const [otpError, setOTPError] = useState<String>("");
 
   const [formData, setFormData] = useState<UserDataType>({
     fname: "",
@@ -34,7 +36,7 @@ function RegisterModalBody() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
   }, []);
 
   const handleRegisterClick = async (reqUserData: UserDataType) => {
@@ -47,25 +49,24 @@ function RegisterModalBody() {
         password1: reqUserData.password1,
         password2: reqUserData.password2,
       });
-
       setAPILoading(true);
-
       const data = await postData(
         register_apiURL,
         requestData,
         "handleRegisterClick"
       );
-
       console.log("handleRegisterClick: ", data);
-      if (data?.status == "1") {
+      if (data?.statusCode == "201") {
+        setRegisterError("");
         setisClickedForOTP(true);
         setResponseData(data);
         setAPILoading(false);
-        setLoading(false);
+        // setLoading(false)
       } else {
         setAPILoading(false);
         setisClickedForOTP(false);
-        setLoading(false);
+        // setLoading(false);
+        setRegisterError(data?.response["errorMessage"]);
       }
     } catch (error) {
       setAPILoading(false);
@@ -77,17 +78,19 @@ function RegisterModalBody() {
     try {
       debugger;
       const requestData = JSON.stringify({
-        "email": formData.email,
-        "otp": formData.otp,
+        email: formData.email,
+        otp: formData.otp,
       });
       setAPILoading(true);
       const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick");
       console.log("onOTPClick data: ", data);
-      if (data?.status == "1") {
-        setResponseData(data);
+      if (data?.status == true) {
         setAPILoading(false);
+        setResponseData(data);
+        props.toggleShowSignUpModal;
       } else {
         setAPILoading(false);
+        setOTPError(data?.response["errorMessage"]);
       }
     } catch (error) {
       setAPILoading(false);
@@ -149,24 +152,26 @@ function RegisterModalBody() {
         </MDBBtn>
       </MDBRow>
 
-      {loading ? (
-        <></>
-      ) : responseData?.status == "1" ? (
-        <Alert severity="success" className="mt-4">
-          Verification Email has been sent successfully to "{formData.email}".
-          Please verify your email to access the account.{" "}
-        </Alert>
-      ) : (
+      {responseData?.statusCode == "201" &&
+        registerError == "" &&
+        otpError == "" && (
+          <Alert severity="success" className="mt-4">
+            Verification Email has been sent successfully to "{formData.email}".
+            Please verify your email to access the account.{" "}
+          </Alert>
+        )}
+
+      {registerError != "" && (
         <Alert severity="error" className="mt-4">
-          Error !
+          {registerError.split(":")[1]}
         </Alert>
       )}
 
-      {/* {error != "" && error != null && (
+      {otpError != "" && (
         <Alert severity="error" className="mt-4">
-          {error}!
+          {otpError.split(":")[1]}
         </Alert>
-      )} */}
+      )}
 
       <p className="text-dark mt-4">
         <b>Register with us</b>
