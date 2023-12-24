@@ -1,34 +1,32 @@
-import  { useState, useEffect } from 'react';
-import { getUserProfile } from '../../services/api';
+import { useState, useEffect } from "react";
 
 const UserProfile = () => {
-  const [userProfile, setUserProfile] = useState(null);
+
+  const [userInfo, setUserInfo] = useState<UserDataType>({
+    fname: "",
+    lname: "",
+    email: "",
+    password1: "",
+    password2: "",
+    otp: "",
+  });
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await getUserProfile();
-        setUserProfile(response.data);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-    };
-
-    fetchUserProfile();
+    const items = JSON.parse(localStorage.getItem('user_info'));
+    if (items) {
+      setUserInfo(items);
+    }
   }, []);
 
-  if (!userProfile) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>
       <h2>User Profile</h2>
-      <p>Name: {userProfile.name}</p>
-      <p>Email: {userProfile.email}</p>
+      <p>Name: {userInfo.fname}{userInfo.lname}</p>
+      <p>Email: {userInfo.email}</p>
       {/* Additional user profile details */}
     </div>
   );
-}
+};
 
 export default UserProfile;

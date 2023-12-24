@@ -76,25 +76,30 @@ function RegisterModalBody(props: any) {
 
   const onOTPClick = async () => {
     try {
-      debugger;
       const requestData = JSON.stringify({
         email: formData.email,
         otp: formData.otp,
       });
       setAPILoading(true);
-      const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick");
+      const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick")
       console.log("onOTPClick data: ", data);
       if (data?.status == true) {
-        setAPILoading(false);
-        setResponseData(data);
-        props.toggleShowSignUpModal;
+        setAPILoading(false)
+        setResponseData(data)
+        debugger
+        
+        console.log("localStorage setItem: ", JSON.stringify(formData))
+        localStorage.setItem("user_info", JSON.stringify(formData))
+
+        console.log("localStorage getItem: ", localStorage.getItem('user_info'))
+        
+        props.toggleShowSignUpModal
       } else {
-        setAPILoading(false);
-        setOTPError(data?.response["errorMessage"]);
+        setOTPError(data?.response["errorMessage"])
       }
     } catch (error) {
       setAPILoading(false);
-      console.error("handleRegisterClick catch: ", error);
+      console.error("handleRegisterClick catch: ", error)
     }
   };
 
