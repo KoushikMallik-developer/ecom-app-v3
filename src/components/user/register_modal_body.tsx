@@ -1,11 +1,4 @@
-import {
-  MDBBtn,
-  MDBRow,
-  MDBInput,
-  MDBIcon,
-  MDBValidation,
-  MDBValidationItem,
-} from "mdb-react-ui-kit";
+import { MDBBtn, MDBRow, MDBInput, MDBIcon } from "mdb-react-ui-kit";
 import logo from "../../assets/brand/logo-no-background.png";
 import { useEffect, useState } from "react";
 import { postData } from "../../services/network_services";
@@ -15,11 +8,10 @@ import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
 function RegisterModalBody(props: any) {
   const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
   const [responseData, setResponseData] = useState<ApiResponseType>();
-  // const [loading, setLoading] = useState<boolean>(true);
   const [apiLoading, setAPILoading] = useState<boolean>(false);
-
   const [registerError, setRegisterError] = useState<String>("");
   const [otpError, setOTPError] = useState<String>("");
+  const [registerFormError, setRegisterFormError] = useState({});
 
   const [formData, setFormData] = useState<UserDataType>({
     fname: "",
@@ -30,9 +22,78 @@ function RegisterModalBody(props: any) {
     otp: "",
   });
 
+  const registerValidateForm = (userData: UserDataType) => {
+    let errors = {
+      fName: "",
+      lName: "",
+      email: "",
+      password1: "",
+      password2: "",
+      otp: "",
+    };
+    let isValid = true;
+
+    if (userData.fname.trim() == "") {
+      errors.fName = "First name required";
+      isValid = false;
+    }
+
+    if (userData.lname.trim() == "") {
+      errors.lName = "Last name required";
+      isValid = false;
+    }
+
+    // const gmailRegx = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (userData.email.trim() == "") {
+      //|| gmailRegx.test(formData.email)
+      console.error("gmailRegx 111 : ", userData.email);
+      errors.email = "Valid email is required";
+      isValid = false;
+    }
+
+    if (
+      userData.password1.trim().length < 6 &&
+      userData.password2.trim().length < 6
+    ) {
+      errors.password1 = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    if (userData.password1.trim() != userData.password2.trim()) {
+      errors.password2 = "Password mismatch";
+      isValid = false;
+    }
+
+    console.log("validation errors: ", errors);
+    setRegisterFormError(errors);
+    return isValid;
+  };
+
+  const otpValidation = (userData: UserDataType) => {
+    let errors = { otp: "" };
+    let isValid = true;
+
+    if (userData.otp.trim() == "") {
+      errors.otp = "OTP can't be empty";
+      isValid = false;
+    }
+
+    console.log("validation errors: ", errors);
+    setRegisterFormError(errors);
+    return isValid;
+  };
+
   const handleButtonClick = async (e: any) => {
     e.preventDefault();
-    await handleRegister(formData);
+    /// Validation
+    debugger;
+    console.log("formData: ", formData);
+    const isValidRegisterFrom = registerValidateForm(formData);
+    console.log("formData: ", isValidRegisterFrom);
+
+    if (isValidRegisterFrom) {
+      await handleRegister(formData);
+    }
   };
 
   useEffect(() => {
@@ -73,15 +134,17 @@ function RegisterModalBody(props: any) {
       console.error("handleRegisterClick catch: ", error);
     }
   };
-
   const onOTPClick = async () => {
-    await handleOTP();
-    debugger;
-    closePopup();
-  };
+    const isValidOTP = otpValidation(formData);
 
-  const closePopup = async () => {
-    props.toggleShowSignUpModal;
+    console.log("isValidOTP : ", isValidOTP);
+    console.log("otpValidation : ", formData);
+
+    if (isValidOTP) {
+      await handleOTP();
+      debugger;
+      props.toggleShowSignUpModal();
+    }
   };
 
   const handleOTP = async () => {
@@ -116,12 +179,13 @@ function RegisterModalBody(props: any) {
       ...formData,
       [id]: value,
     });
-    console.log("handleInputChange complete: ", formData, value);
+    console.log("handleInputChange complete: ", formData);
   };
 
-  const validateEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+  const errorStyle = {
+    color: "red",
+    fontSize: "0.9em",
+    marginTop: "5px",
   };
 
   return (
@@ -187,122 +251,136 @@ function RegisterModalBody(props: any) {
       <p className="text-dark mt-4">
         <b>Register with us</b>
       </p>
-      <form>
-        <MDBValidation noValidate>
-          <MDBValidationItem feedback="Please enter first name." invalid>
-            <MDBInput
-              wrapperClass="mb-4"
-              label="First Name"
-              id="fname"
-              type="text"
-              disabled={isClickedForOTP}
-              onChange={handleInputChange}
-              defaultValue={formData.fname}
-              required
-            />
-          </MDBValidationItem>
-          <MDBValidationItem feedback="Please enter last name." invalid>
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Last Name"
-              id="lname"
-              type="text"
-              disabled={isClickedForOTP}
-              onChange={handleInputChange}
-              defaultValue={formData.lname}
-              required
-            />
-          </MDBValidationItem>
-          <></>
-          <MDBValidationItem feedback="Please choose an email." invalid>
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Email address"
-              id="email"
-              type="email"
-              disabled={isClickedForOTP}
-              onChange={(e) => {
-                validateEmail(formData.email);
-                handleInputChange(e);
-              }}
-              defaultValue={formData.email}
-              required
-            />
-          </MDBValidationItem>
-          <MDBValidationItem feedback="Please choose a password." invalid>
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Password"
-              id="password1"
-              type="password"
-              disabled={isClickedForOTP}
-              onChange={handleInputChange}
-              defaultValue={formData.password1}
-              required
-            />
-          </MDBValidationItem>
-          <MDBValidationItem
-            feedback="Please choose a confirnm password."
-            invalid
-          >
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Confirm Password"
-              id="password2"
-              type="password"
-              disabled={isClickedForOTP}
-              onChange={handleInputChange}
-              defaultValue={formData.password2}
-              required
-            />
-          </MDBValidationItem>
 
-          {isClickedForOTP && (
-            <MDBInput
-              wrapperClass="mb-4"
-              label="Enter OTP"
-              id="otp"
-              type="text"
-              onChange={handleInputChange}
-              required
-            />
+      {registerFormError.fName && (
+        <span style={errorStyle}>{registerFormError.fName}</span>
+      )}
+
+      <MDBInput
+        wrapperClass="mb-4"
+        label="First Name"
+        id="fname"
+        type="text"
+        disabled={isClickedForOTP}
+        onChange={handleInputChange}
+        defaultValue={formData.fname}
+        required
+      />
+
+      {registerFormError.lName && (
+        <span style={errorStyle}>{registerFormError.lName}</span>
+      )}
+
+      <MDBInput
+        wrapperClass="mb-4"
+        label="Last Name"
+        id="lname"
+        type="text"
+        disabled={isClickedForOTP}
+        onChange={handleInputChange}
+        defaultValue={formData.lname}
+        required
+      />
+
+      {registerFormError.email && (
+        <span style={errorStyle}>{registerFormError.email}</span>
+      )}
+
+      <MDBInput
+        wrapperClass="mb-4"
+        label="Email address"
+        id="email"
+        type="email"
+        disabled={isClickedForOTP}
+        // onChange={(e) => {
+        //   validateEmail(formData.email);
+        //   handleInputChange(e);
+        // }}
+        onChange={handleInputChange}
+        defaultValue={formData.email}
+        required
+      />
+
+      {registerFormError.password && (
+        <span style={errorStyle}>{registerFormError.password}</span>
+      )}
+
+      <MDBInput
+        wrapperClass="mb-4"
+        label="Password"
+        id="password1"
+        type="text" //password
+        disabled={isClickedForOTP}
+        onChange={handleInputChange}
+        defaultValue={formData.password1}
+        required
+      />
+
+      {registerFormError.password2 && (
+        <span style={errorStyle}>{registerFormError.password2}</span>
+      )}
+      <MDBInput
+        wrapperClass="mb-4"
+        label="Confirm Password"
+        id="password2"
+        type="text" //password
+        disabled={isClickedForOTP}
+        onChange={handleInputChange}
+        defaultValue={formData.password2}
+        required
+      />
+
+      {isClickedForOTP && (
+        <>
+          {registerFormError.otp && (
+            <span style={errorStyle}>{registerFormError.otp}</span>
           )}
+        </>
+      )}
+      {isClickedForOTP && (
+        <MDBInput
+          wrapperClass="mb-4"
+          label="Enter OTP"
+          id="otp"
+          type="text"
+          onChange={handleInputChange}
+          required
+        />
+      )}
 
-          <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
-            {!isClickedForOTP && (
-              <p className="mb-0 text-dark">Already have an account?</p>
+      <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
+        {!isClickedForOTP && (
+          <p className="mb-0 text-dark">Already have an account?</p>
+        )}
+
+        {apiLoading && <>Please wait....</>}
+
+        {!apiLoading && (
+          <>
+            {isClickedForOTP ? (
+              <MDBBtn
+                outline
+                className="mx-2"
+                color="info"
+                type="submit"
+                onClick={onOTPClick}
+              >
+                Verify OTP
+              </MDBBtn>
+            ) : (
+              <MDBBtn
+                outline
+                className="mx-2"
+                onClick={handleButtonClick}
+                color="info"
+                type="submit"
+              >
+                SIGN IN
+              </MDBBtn>
             )}
-
-            {apiLoading && <>Please wait....</>}
-
-            {!apiLoading && (
-              <>
-                {isClickedForOTP ? (
-                  <MDBBtn
-                    outline
-                    className="mx-2"
-                    color="info"
-                    type="submit"
-                    onClick={onOTPClick}
-                  >
-                    Verify OTP
-                  </MDBBtn>
-                ) : (
-                  <MDBBtn
-                    outline
-                    className="mx-2"
-                    onClick={handleButtonClick}
-                    color="info"
-                    type="submit"
-                  >
-                    SIGN IN
-                  </MDBBtn>
-                )}
-              </>
-            )}
-          </div>
-        </MDBValidation>
-      </form>
+          </>
+        )}
+      </div>
     </div>
   );
 }
