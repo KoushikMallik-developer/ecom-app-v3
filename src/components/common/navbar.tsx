@@ -37,10 +37,13 @@ const Navbar: React.FC = () => {
   };
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user_info"));
-    if (userData) {
-      setIsLoggedIn(true);
+    const token = JSON.parse(localStorage.getItem("tokens"));
+    if (token != null) {
+      console.log("saved_token ; ", token);
     }
+    // if (userData) {
+    // setIsLoggedIn(true);
+    // }
   });
 
   const [showCartModal, setShowCartModal] = useState(false);
@@ -122,6 +125,7 @@ const Navbar: React.FC = () => {
                     aria-current="page"
                     className="text-light"
                     onClick={toggleShowSignUpModal}
+                    // onClick={toggleShowSignInModal}
                   >
                     {!isLoggedIn && (
                       <>
@@ -187,6 +191,7 @@ const Navbar: React.FC = () => {
           toggleShowSignInModal={toggleShowSignInModal}
           signInModal={signInModal}
           setSignInModal={setSignInModal}
+          toggleShowSignUpModal={toggleShowSignUpModal}
         />
       </MDBContainer>
       <MDBContainer>
@@ -194,6 +199,7 @@ const Navbar: React.FC = () => {
           toggleShowSignUpModal={toggleShowSignUpModal}
           signUpModal={signUpModal}
           setSignUpModal={setSignUpModal}
+          toggleShowSignInModal={toggleShowSignInModal}
         />
       </MDBContainer>
       <Cart

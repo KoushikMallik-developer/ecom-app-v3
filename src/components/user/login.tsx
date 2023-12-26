@@ -10,7 +10,7 @@ import {
 import LoginModalBody from './login_modal_body';
 
 
-function Login(props) {
+function Login(props:any) {
     console.log(props.signInModal);
     return (
         <MDBContainer>
@@ -25,7 +25,7 @@ function Login(props) {
                             <div className='text-end'>
                         <MDBBtn className='btn-close' color='none' onClick={props.toggleShowSignInModal}></MDBBtn>
                         </div>
-                            <LoginModalBody />
+                            <LoginModalBody toggleShowSignInModal={props.toggleShowSignInModal}  toggleShowSignUpModal={props.toggleShowSignUpModal}/>
                         </MDBModalBody>
                     </MDBModalContent>
                 </MDBModalDialog>

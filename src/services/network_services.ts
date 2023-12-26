@@ -1,6 +1,5 @@
 async function postData(url: string, requestData: any, apiTag: String) {
   try {
-    //debugger
     console.log("apiTag : ", apiTag);
     console.log("requestData : ", requestData);
     

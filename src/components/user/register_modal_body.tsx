@@ -142,8 +142,6 @@ function RegisterModalBody(props: any) {
 
     if (isValidOTP) {
       await handleOTP();
-      debugger;
-      props.toggleShowSignUpModal();
     }
   };
 
@@ -159,9 +157,14 @@ function RegisterModalBody(props: any) {
       if (data?.status == true) {
         setAPILoading(false);
         setResponseData(data);
+        
+        const token_data = {
+          "token": data.response['token']["access"],
+          "referesh_token:": data.response['token']['refresh'],
+        };
 
-        console.log("localStorage before setItem: ", JSON.stringify(formData));
-        localStorage.setItem("user_info", JSON.stringify(formData));
+        localStorage.setItem("tokens", JSON.stringify(token_data));
+        props.toggleShowSignUpModal();
       } else {
         setAPILoading(false);
         setOTPError(data?.response["errorMessage"]);
@@ -350,10 +353,10 @@ function RegisterModalBody(props: any) {
 
       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
         {!isClickedForOTP && (
-          <p className="mb-0 text-dark">Already have an account?</p>
+          <p className="mb-0 text-dark" >Already have an account?</p>
         )}
 
-        {apiLoading && <>Please wait....</>}
+        {apiLoading && <> Please wait....</>}
 
         {!apiLoading && (
           <>

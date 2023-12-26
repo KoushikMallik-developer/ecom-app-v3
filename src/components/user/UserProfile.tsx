@@ -12,10 +12,10 @@ const UserProfile = () => {
   });
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('user_info'));
-    if (items) {
-      setUserInfo(items);
-    }
+    // const items = JSON.parse(localStorage.getItem('user_info'));
+    // if (items) {
+      // setUserInfo(items);
+    // }
   }, []);
 
 
