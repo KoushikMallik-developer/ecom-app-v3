@@ -22,6 +22,23 @@ function RegisterModalBody(props: any) {
     otp: "",
   });
 
+  const openLoginModal = () => {
+    debugger;
+    props.toggleShowSignUpModal();
+    props.toggleShowSignInModal();
+    resetAllFormValue()
+  };
+
+  const resetAllFormValue = () => {
+    formData.fname = ""
+    formData.lname = ""
+    formData.email = ""
+    formData.password1 = ""
+    formData.password2 = ""
+    setisClickedForOTP(false)
+    setRegisterFormError({})
+  }
+
   const registerValidateForm = (userData: UserDataType) => {
     let errors = {
       fName: "",
@@ -52,14 +69,16 @@ function RegisterModalBody(props: any) {
     }
 
     if (
-      userData.password1.trim().length < 6 &&
+      userData.password1.trim().length < 6 ||
       userData.password2.trim().length < 6
     ) {
       errors.password1 = "Password must be at least 6 characters";
+      errors.password2 = "Password must be at least 6 characters";
       isValid = false;
     }
 
     if (userData.password1.trim() != userData.password2.trim()) {
+      errors.password1 = "Password mismatch";
       errors.password2 = "Password mismatch";
       isValid = false;
     }
@@ -75,6 +94,11 @@ function RegisterModalBody(props: any) {
 
     if (userData.otp.trim() == "") {
       errors.otp = "OTP can't be empty";
+      isValid = false;
+    }
+
+    if (userData.otp.trim().length<6) {
+      errors.otp = 'OTP is 6 digit ${userData.otp.trim().length}';
       isValid = false;
     }
 
@@ -157,10 +181,10 @@ function RegisterModalBody(props: any) {
       if (data?.status == true) {
         setAPILoading(false);
         setResponseData(data);
-        
+
         const token_data = {
-          "token": data.response['token']["access"],
-          "referesh_token:": data.response['token']['refresh'],
+          token: data.response["token"]["access"],
+          "referesh_token:": data.response["token"]["refresh"],
         };
 
         localStorage.setItem("tokens", JSON.stringify(token_data));
@@ -304,8 +328,8 @@ function RegisterModalBody(props: any) {
         required
       />
 
-      {registerFormError.password && (
-        <span style={errorStyle}>{registerFormError.password}</span>
+      {registerFormError.password1 && (
+        <span style={errorStyle}>{registerFormError.password1}</span>
       )}
 
       <MDBInput
@@ -353,7 +377,9 @@ function RegisterModalBody(props: any) {
 
       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
         {!isClickedForOTP && (
-          <p className="mb-0 text-dark" >Already have an account?</p>
+          <p className="mb-0 text-dark" onClick={openLoginModal}>
+            Already have an account?
+          </p>
         )}
 
         {apiLoading && <> Please wait....</>}

@@ -21,6 +21,13 @@ function LoginModalBody(props: any) {
     debugger
     props.toggleShowSignInModal();
     props.toggleShowSignUpModal();
+    resetAllFormValue()
+  }
+
+  const resetAllFormValue = () => {
+    formData.email = ""
+    formData.password= ""
+    setLoginFormError({})
   }
 
 

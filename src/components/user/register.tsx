@@ -23,7 +23,7 @@ function Register(props:any) {
                             <div className='text-end'>
                         <MDBBtn className='btn-close' color='none' onClick={props.toggleShowSignUpModal}></MDBBtn>
                         </div>
-                            <RegisterModalBody toggleShowSignUpModal={props.toggleShowSignUpModal}/>
+                            <RegisterModalBody toggleShowSignUpModal={props.toggleShowSignUpModal} toggleShowSignInModal={props.toggleShowSignInModal}/>
                         </MDBModalBody>
                     </MDBModalContent>
                 </MDBModalDialog>
