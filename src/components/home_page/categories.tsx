@@ -12,7 +12,7 @@ import GrassIcon from '@mui/icons-material/Grass';
 import ToysIcon from '@mui/icons-material/Toys';
 import Liquor from '@mui/icons-material/Liquor';
 import DirectionsBike from '@mui/icons-material/DirectionsBike';
-import CSS from 'csstype';
+import { listGroupStyle } from './home_page_css/category_style.ts';
 
 
 const CategoriesList = () => {
@@ -35,10 +35,6 @@ const CategoriesList = () => {
         { id: 16, name: 'Demo-3', icon: <DirectionsBike /> },
       ];
       
-      const listGroupStyle : CSS.Properties = {
-        height: '545px',
-        overflowY: 'auto',
-      };
 
   return (
     <div className='shadow-5-strong'>
