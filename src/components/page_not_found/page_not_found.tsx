@@ -8,7 +8,7 @@ import {
 } from "mdb-react-ui-kit";
 import errorImage from "../../assets/page_not_found/404.png";
 
-const NotFoundPage = () => {
+const PageNotFound = () => {
   return (
     <MDBContainer className="py-5">
       <MDBRow className="justify-content-center align-items-center min-vh-100">
@@ -25,7 +25,7 @@ const NotFoundPage = () => {
             className="d-flex align-items-center justify-content-center"
           >
             <MDBIcon icon="home" className="me-2" />
-            Dashboard
+            Go to Home
           </MDBBtn>
         </MDBCol>
       </MDBRow>
@@ -33,4 +33,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default PageNotFound;
