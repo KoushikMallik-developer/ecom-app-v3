@@ -13,7 +13,7 @@ import Login from './components/user/login'
 import Register from './components/user/register'
 import Footer from './components/common/footer'
 import UserProfile from './components/user/UserProfile'
-import PageNotFound from './components/404_error/page_not_found'
+import PageNotFound from './components/page_not_found/page_not_found'
 
 function App() {
 

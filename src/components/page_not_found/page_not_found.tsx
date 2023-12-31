@@ -6,7 +6,7 @@ import {
   MDBCardImage,
   MDBBtn,
 } from "mdb-react-ui-kit";
-import errorImage from "../../components/404_error/404.png";
+import errorImage from "../../assets/page_not_found/404.png";
 
 const NotFoundPage = () => {
   return (
