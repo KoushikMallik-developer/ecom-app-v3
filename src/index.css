@@ -65,13 +65,6 @@ code {
   }
 }
 
-/* ::-webkit-scrollbar {
-  width: 0.1rem;
-  height: 0.1rem;
-  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593) 0 32px;
-  border-radius: 10px;
-
-} */
 
 ::-webkit-scrollbar {
   width: 12px;
