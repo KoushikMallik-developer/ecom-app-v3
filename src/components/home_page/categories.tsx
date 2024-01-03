@@ -12,8 +12,8 @@ import GrassIcon from '@mui/icons-material/Grass';
 import ToysIcon from '@mui/icons-material/Toys';
 import Liquor from '@mui/icons-material/Liquor';
 import DirectionsBike from '@mui/icons-material/DirectionsBike';
-import { listGroupStyle } from './home_page_css/category_style.ts';
-
+// import { listGroupStyle } from './home_page_css/category_style.ts';
+import "./home_page_css/category_style.css";
 
 const CategoriesList = () => {
     const categoriesData = [
@@ -39,7 +39,7 @@ const CategoriesList = () => {
   return (
     <div className='shadow-5-strong'>
       <h5 className='fw-bold bg-light mt-4 pt-3 pb-2 mb-1 text-center text-capitalize'>TOP CATEGORIES</h5>
-      <MDBListGroup  style={listGroupStyle}  className='rounded-0 bg-light pb-1'>
+      <MDBListGroup className='rounded-0 bg-light pb-1 list-group-style'>
       {categoriesData.map((category) => (
         <>
         <Link to=''>
