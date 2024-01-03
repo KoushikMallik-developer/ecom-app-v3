@@ -12,8 +12,7 @@ import GrassIcon from '@mui/icons-material/Grass';
 import ToysIcon from '@mui/icons-material/Toys';
 import Liquor from '@mui/icons-material/Liquor';
 import DirectionsBike from '@mui/icons-material/DirectionsBike';
-// import { listGroupStyle } from './home_page_css/category_style.ts';
-import "./home_page_css/category_style.css";
+import '../../assets/css/home_page_css/category_style.css';
 
 const CategoriesList = () => {
     const categoriesData = [
