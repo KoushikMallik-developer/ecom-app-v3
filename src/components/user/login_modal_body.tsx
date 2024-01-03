@@ -1,10 +1,9 @@
 import { MDBBtn, MDBRow, MDBInput, MDBIcon } from "mdb-react-ui-kit";
 import logo from "../../assets/brand/logo-no-background.png";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { login_apiURL } from "../../services/api_url";
 import { postData } from "../../services/network_services";
-import { Alert } from "@mui/material";
+import { Alert, Link } from "@mui/material";
 
 function LoginModalBody(props: any) {
   const [responseData, setResponseData] = useState<ApiResponseType>();
@@ -17,21 +16,14 @@ function LoginModalBody(props: any) {
     password: "",
   });
 
-  const openRegisterModal = async () => {
-    debugger
+  const openRegisterModal = () => {
     props.toggleShowSignInModal();
     props.toggleShowSignUpModal();
-    resetAllFormValue()
-  }
-
-  const resetAllFormValue = () => {
-    formData.email = ""
-    formData.password= ""
-    setLoginFormError({})
-  }
+  };
 
 
   const handleButtonClick = async (e: any) => {
+    debugger;
     e.preventDefault();
     /// Validation
     const isValidLoginForm = loginValidation(formData);
@@ -73,21 +65,20 @@ function LoginModalBody(props: any) {
       });
       setAPILoading(true);
       const data = await postData(login_apiURL, requestData, "handle_login");
-      // console.log("handleRegisterClick: ", data);
       if (data?.statusCode == "200") {
         setResponseData(data);
         setAPILoading(false);
         setLoginClick(true);
         setLoginError("");
+        setLoginFormError({});
 
         const token_data = {
-            "token": data.response['token']["access"],
-            "referesh_token:": data.response['token']['refresh'],
-            "isLoggedIn": true,
-          };
-  
-          localStorage.setItem("tokens", JSON.stringify(token_data));
-          
+          token: data.response["token"]["access"],
+          "referesh_token:": data.response["token"]["refresh"],
+          isLoggedIn: true,
+        };
+
+        localStorage.setItem("tokens", JSON.stringify(token_data));
 
         props.toggleShowSignInModal();
       } else {
@@ -193,35 +184,28 @@ function LoginModalBody(props: any) {
         wrapperClass="mb-4 pb-1"
         label="Password"
         id="password"
-        type="text"
+        type="password"
         disabled={isLoginClicked}
         onChange={handleInputChange}
         defaultValue={formData.password}
       />
 
-      {apiLoading && <>Please wait....</>}
-
-      {!apiLoading && (
-        <div className="text-center pt-1 mb-2 pb-1">
-          <MDBBtn
-            className="mb-4 w-100 gradient-custom-2"
-            onClick={handleButtonClick}
-          >
-            Sign in
-          </MDBBtn>
-          <a className="text-muted" href="#!">
-            Forgot password?
-          </a>
-        </div>
-      )}
+      <div className="text-center pt-1 mb-2 pb-1">
+        <MDBBtn
+          className="mb-4 w-100 gradient-custom-2"
+          onClick={(e) => (apiLoading ? {} : handleButtonClick(e))}
+        >
+          {apiLoading ? "Please wait" : "Sign in"}
+        </MDBBtn>
+        <a className="text-muted" href="#!">
+          Forgot password?
+        </a>
+      </div>
 
       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
-        <p className="mb-0 text-dark">Don't have an account?</p>
-        {/* <Link to="/register"> */}
-          <MDBBtn outline className="mx-2" color="danger" onClick={openRegisterModal}>
-            Register
-          </MDBBtn>
-        {/* </Link> */}
+        <Link component="button" variant="body2" onClick={openRegisterModal}>
+          Don't have an account? Register
+        </Link>
       </div>
     </div>
   );

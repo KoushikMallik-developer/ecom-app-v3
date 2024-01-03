@@ -2,7 +2,7 @@ import { MDBBtn, MDBRow, MDBInput, MDBIcon } from "mdb-react-ui-kit";
 import logo from "../../assets/brand/logo-no-background.png";
 import { useEffect, useState } from "react";
 import { postData } from "../../services/network_services";
-import { Alert } from "@mui/material";
+import { Alert, Link } from "@mui/material";
 import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
 
 function RegisterModalBody(props: any) {
@@ -23,21 +23,10 @@ function RegisterModalBody(props: any) {
   });
 
   const openLoginModal = () => {
-    debugger;
     props.toggleShowSignUpModal();
     props.toggleShowSignInModal();
-    resetAllFormValue()
   };
 
-  const resetAllFormValue = () => {
-    formData.fname = ""
-    formData.lname = ""
-    formData.email = ""
-    formData.password1 = ""
-    formData.password2 = ""
-    setisClickedForOTP(false)
-    setRegisterFormError({})
-  }
 
   const registerValidateForm = (userData: UserDataType) => {
     let errors = {
@@ -60,9 +49,7 @@ function RegisterModalBody(props: any) {
       isValid = false;
     }
 
-    // const gmailRegx = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (userData.email.trim() == "") {
-      //|| gmailRegx.test(formData.email)
       console.error("gmailRegx 111 : ", userData.email);
       errors.email = "Valid email is required";
       isValid = false;
@@ -97,8 +84,8 @@ function RegisterModalBody(props: any) {
       isValid = false;
     }
 
-    if (userData.otp.trim().length<6) {
-      errors.otp = 'OTP is 6 digit ${userData.otp.trim().length}';
+    if (userData.otp.trim().length < 6) {
+      errors.otp = "OTP is 6 digit ${userData.otp.trim().length}";
       isValid = false;
     }
 
@@ -110,7 +97,6 @@ function RegisterModalBody(props: any) {
   const handleButtonClick = async (e: any) => {
     e.preventDefault();
     /// Validation
-    debugger;
     console.log("formData: ", formData);
     const isValidRegisterFrom = registerValidateForm(formData);
     console.log("formData: ", isValidRegisterFrom);
@@ -120,9 +106,7 @@ function RegisterModalBody(props: any) {
     }
   };
 
-  useEffect(() => {
-    // setLoading(true);
-  }, []);
+  useEffect(() => {}, []);
 
   const handleRegister = async (reqUserData: UserDataType) => {
     try {
@@ -140,17 +124,16 @@ function RegisterModalBody(props: any) {
         requestData,
         "handleRegisterClick"
       );
-      // console.log("handleRegisterClick: ", data);
+
       if (data?.statusCode == "201") {
         setRegisterError("");
         setisClickedForOTP(true);
         setResponseData(data);
         setAPILoading(false);
-        // setLoading(false)
       } else {
         setAPILoading(false);
         setisClickedForOTP(false);
-        // setLoading(false);
+
         setRegisterError(data?.response["errorMessage"]);
       }
     } catch (error) {
@@ -181,6 +164,7 @@ function RegisterModalBody(props: any) {
       if (data?.status == true) {
         setAPILoading(false);
         setResponseData(data);
+        setisClickedForOTP(false);
 
         const token_data = {
           token: data.response["token"]["access"],
@@ -319,10 +303,6 @@ function RegisterModalBody(props: any) {
         id="email"
         type="email"
         disabled={isClickedForOTP}
-        // onChange={(e) => {
-        //   validateEmail(formData.email);
-        //   handleInputChange(e);
-        // }}
         onChange={handleInputChange}
         defaultValue={formData.email}
         required
@@ -336,7 +316,7 @@ function RegisterModalBody(props: any) {
         wrapperClass="mb-4"
         label="Password"
         id="password1"
-        type="text" //password
+        type="password"
         disabled={isClickedForOTP}
         onChange={handleInputChange}
         defaultValue={formData.password1}
@@ -350,7 +330,7 @@ function RegisterModalBody(props: any) {
         wrapperClass="mb-4"
         label="Confirm Password"
         id="password2"
-        type="text" //password
+        type="password"
         disabled={isClickedForOTP}
         onChange={handleInputChange}
         defaultValue={formData.password2}
@@ -377,9 +357,9 @@ function RegisterModalBody(props: any) {
 
       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
         {!isClickedForOTP && (
-          <p className="mb-0 text-dark" onClick={openLoginModal}>
+          <Link component="button" variant="body2" onClick={openLoginModal}>
             Already have an account?
-          </p>
+          </Link>
         )}
 
         {apiLoading && <> Please wait....</>}

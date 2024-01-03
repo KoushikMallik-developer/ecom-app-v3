@@ -40,10 +40,8 @@ const Navbar: React.FC = () => {
     const token = JSON.parse(localStorage.getItem("tokens"));
     if (token != null) {
       console.log("saved_token ; ", token);
+      setIsLoggedIn(true);
     }
-    // if (userData) {
-    // setIsLoggedIn(true);
-    // }
   });
 
   const [showCartModal, setShowCartModal] = useState(false);
@@ -66,6 +64,7 @@ const Navbar: React.FC = () => {
   const clearLocalData = () => {
     try {
       localStorage.clear();
+      setIsLoggedIn(false);
     } catch (error) {
       console.error();
     }
@@ -124,7 +123,7 @@ const Navbar: React.FC = () => {
                   <MDBNavbarLink
                     aria-current="page"
                     className="text-light"
-                    onClick={toggleShowSignUpModal}
+                    // onClick={toggleShowSignUpModal}
                     // onClick={toggleShowSignInModal}
                   >
                     {!isLoggedIn && (
