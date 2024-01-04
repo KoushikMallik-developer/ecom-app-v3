@@ -10,6 +10,9 @@ import KitchenIcon from '@mui/icons-material/Kitchen';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import GrassIcon from '@mui/icons-material/Grass';
 import ToysIcon from '@mui/icons-material/Toys';
+import Liquor from '@mui/icons-material/Liquor';
+import DirectionsBike from '@mui/icons-material/DirectionsBike';
+import '../../assets/css/home_page_css/category_style.css';
 
 const CategoriesList = () => {
     const categoriesData = [
@@ -23,12 +26,19 @@ const CategoriesList = () => {
         { id: 8, name: 'Automobiles & Accesories', icon: <TwoWheelerIcon/>},
         { id: 9, name: 'Plants', icon: <GrassIcon/>},
         { id: 10, name: 'Toys & Gifts', icon: <ToysIcon/>},
+        { id: 11, name: 'Wine', icon: <Liquor /> },
+        { id: 12, name: 'Motor Accessories', icon: <DirectionsBike /> },
+        { id: 13, name: 'Demo', icon: <DirectionsBike /> },
+        { id: 14, name: 'Demo-1', icon: <DirectionsBike /> },
+        { id: 15, name: 'Demo-2', icon: <DirectionsBike /> },
+        { id: 16, name: 'Demo-3', icon: <DirectionsBike /> },
       ];
       
+
   return (
     <div className='shadow-5-strong'>
       <h5 className='fw-bold bg-light mt-4 pt-3 pb-2 mb-1 text-center text-capitalize'>TOP CATEGORIES</h5>
-      <MDBListGroup className='rounded-0 bg-light pb-1'>
+      <MDBListGroup className='rounded-0 bg-light pb-1 list-group-style'>
       {categoriesData.map((category) => (
         <>
         <Link to=''>
