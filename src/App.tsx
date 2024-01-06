@@ -13,6 +13,7 @@ import Login from './components/user/login'
 import Register from './components/user/register'
 import Footer from './components/common/footer'
 import UserProfile from './components/user/UserProfile'
+import PageNotFound from './components/page_not_found/page_not_found'
 
 function App() {
 
@@ -34,7 +35,7 @@ function App() {
           <Route path="/edit-profile" element={<EditProfile/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
-          
+          <Route path="*" element={<PageNotFound/>} />
         </Routes>
         <Footer />
       </div>
