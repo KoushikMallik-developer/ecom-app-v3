@@ -5,6 +5,7 @@ import { login_apiURL } from "../../services/api_url";
 import { postData } from "../../services/network_services";
 import { Alert, Link } from "@mui/material";
 import '../../assets/css/auth_css/auth_style.css';
+import Validator from '../../utils/validations';
 
 function LoginModalBody(props: any) {
   const [responseData, setResponseData] = useState<ApiResponseType>();
@@ -21,13 +22,6 @@ function LoginModalBody(props: any) {
     props.toggleShowSignInModal();
     props.toggleShowSignUpModal();
   };
-
-  
-  const validateEmailV2 = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
 
   const handleButtonClick = async (e: any) => {
     e.preventDefault();
@@ -48,7 +42,7 @@ function LoginModalBody(props: any) {
     if (formData.email.trim() === "") {
       errors.email = "Valid email is required";
       isValid = false;
-    } else if (!validateEmailV2(formData.email)) {
+    } else if (!Validator.validateEmail(formData.email)) {
       errors.email = "Invalid email format";
       isValid = false;
     }

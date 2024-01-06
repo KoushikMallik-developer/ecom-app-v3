@@ -5,6 +5,7 @@ import { postData } from "../../services/network_services";
 import { Alert, Link } from "@mui/material";
 import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
 import '../../assets/css/auth_css/auth_style.css';
+import Validator from '../../utils/validations';
 
 
 function RegisterModalBody(props: any) {
@@ -28,12 +29,6 @@ function RegisterModalBody(props: any) {
     props.toggleShowSignUpModal();
     props.toggleShowSignInModal();
   };
-
-  const validateEmailV2 = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
 
   const registerValidateForm = (userData: UserDataType) => {
     let errors = {
@@ -60,7 +55,7 @@ function RegisterModalBody(props: any) {
       console.error("Email is empty: ", userData.email);
       errors.email = "Valid email is required";
       isValid = false;
-    } else if (!validateEmailV2(userData.email)) {
+    } else if (!Validator.validateEmail(userData.email)) {
       console.error("Invalid Email: ", userData.email);
       errors.email = "Invalid email format";
       isValid = false;
