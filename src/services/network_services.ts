@@ -1,7 +1,5 @@
 async function postData(url: string, requestData: any, apiTag: String) {
   try {
-    console.log("apiTag : ", apiTag);
-    console.log("requestData : ", requestData);
     
     const response = await fetch(url, {
       method: "POST",
@@ -17,8 +15,6 @@ async function postData(url: string, requestData: any, apiTag: String) {
       status: response.ok,
       statusCode: response.status.toString(),
     };
-
-    console.log("final response : ", finalResp);
 
     return finalResp;
   } catch (error) {

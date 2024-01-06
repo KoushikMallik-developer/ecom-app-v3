@@ -14,7 +14,6 @@ import {
   MDBNavbarItem,
   MDBNavbarLink,
   MDBNavbarToggler,
-  MDBNavbarBrand,
   MDBCollapse,
 } from "mdb-react-ui-kit";
 import logo from "../../assets/brand/logo-no-background.png";
@@ -39,7 +38,6 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("tokens"));
     if (token != null) {
-      console.log("saved_token ; ", token);
       setIsLoggedIn(true);
     }
   });
@@ -123,8 +121,6 @@ const Navbar: React.FC = () => {
                   <MDBNavbarLink
                     aria-current="page"
                     className="text-light"
-                    // onClick={toggleShowSignUpModal}
-                    // onClick={toggleShowSignInModal}
                   >
                     {!isLoggedIn && (
                       <>

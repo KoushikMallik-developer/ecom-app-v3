@@ -25,11 +25,8 @@ function LoginModalBody(props: any) {
 
   const handleButtonClick = async (e: any) => {
     e.preventDefault();
-    /// Validation
+   
     const isValidLoginForm = loginValidation(formData);
-
-    console.log("isValidLoginForm : ", isValidLoginForm);
-
     if (isValidLoginForm) {
       await handleLogin();
     }
@@ -54,8 +51,6 @@ function LoginModalBody(props: any) {
       errors.password = "Enter valid password";
       isValid = false;
     }
-
-    console.log("validation errors: ", errors);
     setLoginFormError(errors);
     return isValid;
   };
@@ -103,7 +98,6 @@ function LoginModalBody(props: any) {
       ...formData,
       [id]: value,
     });
-    console.log("handleInputChange complete: ", formData);
   };
 
 

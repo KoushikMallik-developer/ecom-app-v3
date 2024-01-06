@@ -11,7 +11,6 @@ import LoginModalBody from './login_modal_body';
 
 
 function Login(props:any) {
-    console.log(props.signInModal);
     return (
         <MDBContainer>
             <MDBModal

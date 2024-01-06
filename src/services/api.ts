@@ -3,40 +3,6 @@
 // Example base URL for your backend API
 const BASE_URL = "https://auth-stg.onrender.com";
 
-export const handleRegister = async (formData: UserDataType) => {
-  try {
-    const mydata = JSON.stringify({
-      username: formData.lname.toLowerCase(),
-      email: formData.email,
-      fname: formData.fname,
-      lname: formData.lname,
-      password1: formData.password1,
-      password2: formData.password2,
-    });
-
-    const response = await fetch(`${BASE_URL}/api/v2/create-users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: mydata,
-    });
-
-    const result = await response.json();
-    console.log("API Result : ", result);
-
-    if (response.ok) {
-      console.log("Success : ", result);
-      return true;
-    } else {
-      console.error("Failed : ", result);
-      return false;
-    }
-  } catch (error) {
-    console.error("Error : ", error);
-    return false;
-  }
-};
 
 // Fetch all users
 export const getUsers = async () => {

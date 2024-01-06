@@ -76,7 +76,6 @@ function RegisterModalBody(props: any) {
       isValid = false;
     }
 
-    console.log("validation errors: ", errors);
     setRegisterFormError(errors);
     return isValid;
   };
@@ -95,7 +94,6 @@ function RegisterModalBody(props: any) {
       isValid = false;
     }
 
-    console.log("validation errors: ", errors);
     setRegisterFormError(errors);
     return isValid;
   };
@@ -103,9 +101,7 @@ function RegisterModalBody(props: any) {
   const handleButtonClick = async (e: any) => {
     e.preventDefault();
     /// Validation
-    console.log("formData: ", formData);
     const isValidRegisterFrom = registerValidateForm(formData);
-    console.log("formData: ", isValidRegisterFrom);
 
     if (isValidRegisterFrom) {
       await handleRegister(formData);
@@ -149,10 +145,6 @@ function RegisterModalBody(props: any) {
   };
   const onOTPClick = async () => {
     const isValidOTP = otpValidation(formData);
-
-    console.log("isValidOTP : ", isValidOTP);
-    console.log("otpValidation : ", formData);
-
     if (isValidOTP) {
       await handleOTP();
     }
@@ -166,7 +158,6 @@ function RegisterModalBody(props: any) {
       });
       setAPILoading(true);
       const data = await postData(verifyOTP_apiURL, requestData, "onOTPClick");
-      console.log("onOTPClick data: ", data);
       if (data?.status == true) {
         setAPILoading(false);
         setResponseData(data);
@@ -190,20 +181,12 @@ function RegisterModalBody(props: any) {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange: ", event.target);
     const { id, value } = event.target;
     setFormData({
       ...formData,
       [id]: value,
     });
-    console.log("handleInputChange complete: ", formData);
   };
-
-  // const errorStyle = {
-  //   color: "red",
-  //   fontSize: "0.9em",
-  //   marginTop: "5px",
-  // };
 
   return (
     <div className="d-flex flex-column mx-5 mt-0">
