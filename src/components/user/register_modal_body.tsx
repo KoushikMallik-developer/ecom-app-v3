@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { postData } from "../../services/network_services";
 import { Alert, Link } from "@mui/material";
 import { register_apiURL, verifyOTP_apiURL } from "../../services/api_url";
+import '../../assets/css/auth_css/auth_style.css';
+
 
 function RegisterModalBody(props: any) {
   const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
@@ -202,11 +204,11 @@ function RegisterModalBody(props: any) {
     console.log("handleInputChange complete: ", formData);
   };
 
-  const errorStyle = {
-    color: "red",
-    fontSize: "0.9em",
-    marginTop: "5px",
-  };
+  // const errorStyle = {
+  //   color: "red",
+  //   fontSize: "0.9em",
+  //   marginTop: "5px",
+  // };
 
   return (
     <div className="d-flex flex-column mx-5 mt-0">
@@ -273,7 +275,7 @@ function RegisterModalBody(props: any) {
       </p>
 
       {registerFormError.fName && (
-        <span style={errorStyle}>{registerFormError.fName}</span>
+        <span className="error">{registerFormError.fName}</span>
       )}
 
       <MDBInput
@@ -288,7 +290,7 @@ function RegisterModalBody(props: any) {
       />
 
       {registerFormError.lName && (
-        <span style={errorStyle}>{registerFormError.lName}</span>
+        <span className="error">{registerFormError.lName}</span>
       )}
 
       <MDBInput
@@ -303,7 +305,7 @@ function RegisterModalBody(props: any) {
       />
 
       {registerFormError.email && (
-        <span style={errorStyle}>{registerFormError.email}</span>
+        <span className="error">{registerFormError.email}</span>
       )}
 
       <MDBInput
@@ -318,7 +320,7 @@ function RegisterModalBody(props: any) {
       />
 
       {registerFormError.password1 && (
-        <span style={errorStyle}>{registerFormError.password1}</span>
+        <span className="error">{registerFormError.password1}</span>
       )}
 
       <MDBInput
@@ -333,7 +335,7 @@ function RegisterModalBody(props: any) {
       />
 
       {registerFormError.password2 && (
-        <span style={errorStyle}>{registerFormError.password2}</span>
+        <span className="error">{registerFormError.password2}</span>
       )}
       <MDBInput
         wrapperClass="mb-4"
@@ -349,7 +351,7 @@ function RegisterModalBody(props: any) {
       {isClickedForOTP && (
         <>
           {registerFormError.otp && (
-            <span style={errorStyle}>{registerFormError.otp}</span>
+            <span className="error">{registerFormError.otp}</span>
           )}
         </>
       )}

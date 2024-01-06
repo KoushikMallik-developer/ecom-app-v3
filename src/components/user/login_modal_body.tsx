@@ -4,6 +4,7 @@ import { useState } from "react";
 import { login_apiURL } from "../../services/api_url";
 import { postData } from "../../services/network_services";
 import { Alert, Link } from "@mui/material";
+import '../../assets/css/auth_css/auth_style.css';
 
 function LoginModalBody(props: any) {
   const [responseData, setResponseData] = useState<ApiResponseType>();
@@ -111,11 +112,6 @@ function LoginModalBody(props: any) {
     console.log("handleInputChange complete: ", formData);
   };
 
-  const errorStyle = {
-    color: "red",
-    fontSize: "0.9em",
-    marginTop: "5px",
-  };
 
   return (
     <div className="d-flex flex-column mx-5 mt-0">
@@ -174,7 +170,7 @@ function LoginModalBody(props: any) {
       )}
 
       {loginFormError.email && (
-        <span style={errorStyle}>{loginFormError.email}</span>
+        <span className="error">{loginFormError.email}</span>
       )}
 
       <MDBInput
@@ -188,7 +184,7 @@ function LoginModalBody(props: any) {
       />
 
       {loginFormError.password && (
-        <span style={errorStyle}>{loginFormError.password}</span>
+        <span className="error">{loginFormError.password}</span>
       )}
       <MDBInput
         wrapperClass="mb-4 pb-1"
