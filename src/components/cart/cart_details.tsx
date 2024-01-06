@@ -29,8 +29,6 @@ const Cart = (props) => {
   //   }
   // };
 
-
-  debugger;
   return (
     <>
       <Drawer
