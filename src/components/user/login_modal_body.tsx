@@ -21,9 +21,14 @@ function LoginModalBody(props: any) {
     props.toggleShowSignUpModal();
   };
 
+  
+  const validateEmailV2 = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
 
   const handleButtonClick = async (e: any) => {
-    debugger;
     e.preventDefault();
     /// Validation
     const isValidLoginForm = loginValidation(formData);
@@ -39,8 +44,11 @@ function LoginModalBody(props: any) {
     let errors = {};
     let isValid = true;
 
-    if (formValue.email.trim() == "") {
-      errors.email = "Email can't be empty";
+    if (formData.email.trim() === "") {
+      errors.email = "Valid email is required";
+      isValid = false;
+    } else if (!validateEmailV2(formData.email)) {
+      errors.email = "Invalid email format";
       isValid = false;
     }
 
@@ -67,7 +75,6 @@ function LoginModalBody(props: any) {
       const data = await postData(login_apiURL, requestData, "handle_login");
       if (data?.statusCode == "200") {
         setResponseData(data);
-        setAPILoading(false);
         setLoginClick(true);
         setLoginError("");
         setLoginFormError({});
@@ -81,6 +88,9 @@ function LoginModalBody(props: any) {
         localStorage.setItem("tokens", JSON.stringify(token_data));
 
         props.toggleShowSignInModal();
+        /// when all done make them false
+        setLoginClick(false);
+        setAPILoading(false);
       } else {
         setAPILoading(false);
         setLoginClick(false);

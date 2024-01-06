@@ -27,6 +27,11 @@ function RegisterModalBody(props: any) {
     props.toggleShowSignInModal();
   };
 
+  const validateEmailV2 = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
 
   const registerValidateForm = (userData: UserDataType) => {
     let errors = {
@@ -49,9 +54,13 @@ function RegisterModalBody(props: any) {
       isValid = false;
     }
 
-    if (userData.email.trim() == "") {
-      console.error("gmailRegx 111 : ", userData.email);
+    if (userData.email.trim() === "") {
+      console.error("Email is empty: ", userData.email);
       errors.email = "Valid email is required";
+      isValid = false;
+    } else if (!validateEmailV2(userData.email)) {
+      console.error("Invalid Email: ", userData.email);
+      errors.email = "Invalid email format";
       isValid = false;
     }
 
@@ -85,7 +94,7 @@ function RegisterModalBody(props: any) {
     }
 
     if (userData.otp.trim().length < 6) {
-      errors.otp = "OTP is 6 digit ${userData.otp.trim().length}";
+      errors.otp = "OTP is 6 digit";
       isValid = false;
     }
 
