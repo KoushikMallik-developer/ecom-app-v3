@@ -16,6 +16,7 @@ async function postData(url: string, requestData: any, apiTag: String) {
       statusCode: response.status.toString(),
     };
 
+    debugger
     return finalResp;
   } catch (error) {
     console.log("error : ", error);
