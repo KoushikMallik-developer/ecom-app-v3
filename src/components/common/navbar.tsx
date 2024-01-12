@@ -144,23 +144,46 @@ const Navbar: React.FC = () => {
                       <b>Account</b>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
-                      <Link to="/profile">
-                        <MDBDropdownItem link childTag="button">
+
+                      {isLoggedIn ?
+                        <Link to="/profile">
+                          <MDBDropdownItem link childTag="button">
+                            My Profile
+                          </MDBDropdownItem>
+                        </Link> :
+                        <MDBDropdownItem link childTag="button" onClick={toggleShowSignInModal}>
                           My Profile
                         </MDBDropdownItem>
-                      </Link>
-                      <MDBDropdownItem link childTag="button">
+                      }
+
+                      {isLoggedIn ? <MDBDropdownItem link childTag="button">
                         Wishlist
-                      </MDBDropdownItem>
-                      <MDBDropdownItem link childTag="button">
+                      </MDBDropdownItem> : <MDBDropdownItem link childTag="button" onClick={toggleShowSignInModal}>
+                        Wishlist
+                      </MDBDropdownItem>}
+
+
+                      {isLoggedIn ? <MDBDropdownItem link childTag="button">
                         Orders
-                      </MDBDropdownItem>
-                      <MDBDropdownItem link childTag="button">
+                      </MDBDropdownItem> : <MDBDropdownItem link childTag="button" onClick={toggleShowSignInModal}>
+                        Orders
+                      </MDBDropdownItem>}
+
+
+                      {isLoggedIn ? <MDBDropdownItem link childTag="button">
                         Gift Cards
-                      </MDBDropdownItem>
-                      <MDBDropdownItem link childTag="button">
+                      </MDBDropdownItem> : <MDBDropdownItem link childTag="button" onClick={toggleShowSignInModal}>
+                        Gift Cards
+                      </MDBDropdownItem>}
+                      
+
+                      {isLoggedIn ? <MDBDropdownItem link childTag="button">
                         Rewards
-                      </MDBDropdownItem>
+                      </MDBDropdownItem> : <MDBDropdownItem link childTag="button" onClick={toggleShowSignInModal}>
+                        Rewards
+                      </MDBDropdownItem>}
+
+
                       {logout_btn_nav_item}
                     </MDBDropdownMenu>
                   </MDBDropdown>
