@@ -9,7 +9,6 @@ import {
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 export default function ProductCard(props) {
-  // debugger;
     return (
       <>
       <MDBCard className="text-black shadow-5-strong mb-3">

@@ -24,7 +24,6 @@ const EditProfile = () => {
     e.preventDefault();
     try {
       await updateUserProfile({ name, email });
-      console.log('Profile updated successfully!');
     } catch (error) {
       console.error('Error updating profile:', error);
     }
