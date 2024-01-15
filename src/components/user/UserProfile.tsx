@@ -69,7 +69,14 @@ const UserProfile = () => {
               <strong>Active:</strong> <ActiveStatusIndicator isActive={userInfo.is_active} />
 
             </MDBCardText>
-            <AddressListComponent addresses={userInfo.delivery_address_list.address_list} />
+            {/* <AddressListComponent addresses={userInfo.delivery_address_list.address_list} /> */}
+            {userInfo.delivery_address_list.address_list.map((address: UserAddress) => (
+            <div key={address.id}>
+              <p>{address.address_line1}, {address.address_line2}</p>
+              <p>{address.city}, {address.state} {address.pin}</p>
+              {/* Add more address details as needed */}
+            </div>
+          ))}
           </MDBCardBody>
         </MDBCard>
 
