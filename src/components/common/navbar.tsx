@@ -36,12 +36,11 @@ const Navbar: React.FC = () => {
   };
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("tokens"));
+    const token = JSON.parse(localStorage.getItem("tokens")??"");
     if (token != null) {
       setIsLoggedIn(true);
     }
-    console.log("data --> ",token)
-  });
+    });
 
   const [showCartModal, setShowCartModal] = useState(false);
 
