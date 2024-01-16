@@ -9,7 +9,7 @@ import {
 from 'mdb-react-ui-kit';
 import RegisterModalBody from './register_modal_body';
 
-function Register(props) {
+function Register(props:any) {
     return (
         <MDBContainer>
             <MDBModal
@@ -23,7 +23,7 @@ function Register(props) {
                             <div className='text-end'>
                         <MDBBtn className='btn-close' color='none' onClick={props.toggleShowSignUpModal}></MDBBtn>
                         </div>
-                            <RegisterModalBody />
+                            <RegisterModalBody toggleShowSignUpModal={props.toggleShowSignUpModal} toggleShowSignInModal={props.toggleShowSignInModal}/>
                         </MDBModalBody>
                     </MDBModalContent>
                 </MDBModalDialog>

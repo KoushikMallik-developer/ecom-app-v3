@@ -1,58 +1,208 @@
-import {
-    MDBBtn,
-    MDBRow,
-    MDBInput,
-    MDBIcon
-}
-    from 'mdb-react-ui-kit';
-import logo from '../../assets/brand/logo-no-background.png';
-import { Link } from 'react-router-dom';
+import { MDBBtn, MDBRow, MDBInput, MDBIcon } from "mdb-react-ui-kit";
+import logo from "../../assets/brand/logo-no-background.png";
+import { useState } from "react";
+import { login_apiURL } from "../../services/api_url";
+import { postData } from "../../services/network_services";
+import { Alert, Link } from "@mui/material";
+import '../../assets/css/auth_css/auth_style.css';
+import Validator from '../../utils/validations';
+
+function LoginModalBody(props: any) {
+  const [responseData, setResponseData] = useState<ApiResponseType>();
+  const [apiLoading, setAPILoading] = useState<boolean>(false);
+  const [isLoginClicked, setLoginClick] = useState<boolean>(false);
+  const [loginFormError, setLoginFormError] = useState({});
+  const [loginError, setLoginError] = useState<String>("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const openRegisterModal = () => {
+    props.toggleShowSignInModal();
+    props.toggleShowSignUpModal();
+  };
+
+  const handleButtonClick = async (e: any) => {
+    e.preventDefault();
+   
+    const isValidLoginForm = loginValidation(formData);
+    if (isValidLoginForm) {
+      await handleLogin();
+    }
+  };
+
+  const loginValidation = (formValue: any) => {
+    let errors = {};
+    let isValid = true;
+
+    if (formData.email.trim() === "") {
+      errors.email = "Valid email is required";
+      isValid = false;
+    } else if (!Validator.validateEmail(formData.email)) {
+      errors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    if (
+      formValue.password.trim() == "" ||
+      formValue.password.trim().length < 6
+    ) {
+      errors.password = "Enter valid password";
+      isValid = false;
+    }
+    setLoginFormError(errors);
+    return isValid;
+  };
+
+  const handleLogin = async () => {
+    try {
+      const requestData = JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      });
+      setAPILoading(true);
+      const data = await postData(login_apiURL, requestData, "handle_login");
+      if (data?.statusCode == "200") {
+        setResponseData(data);
+        setLoginClick(true);
+        setLoginError("");
+        setLoginFormError({});
+
+        const token_data = {
+          token: data.response["token"]["access"],
+          "referesh_token:": data.response["token"]["refresh"],
+          isLoggedIn: true,
+        };
+
+        localStorage.setItem("tokens", JSON.stringify(token_data));
+
+        props.toggleShowSignInModal();
+        /// when all done make them false
+        setLoginClick(false);
+        setAPILoading(false);
+      } else {
+        setAPILoading(false);
+        setLoginClick(false);
+        setLoginError(data?.response["errorMessage"]);
+      }
+    } catch (error) {
+      setAPILoading(false);
+      console.error("handleR login catch: ", error);
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
 
 
-function LoginModalBody(props) {
-    return (
-        <div className="d-flex flex-column mx-5 mt-0">
+  return (
+    <div className="d-flex flex-column mx-5 mt-0">
+      <div className="text-center text-dark">
+        <img src={logo} style={{ width: "185px" }} alt="logo" />
+        <h5 className="mt-4 pb-1 ">
+          Get access to your Orders, Wishlist and Recommendations
+        </h5>
+      </div>
+      <h5 className="mt-2 pb-1 text-dark text-center">Sign in with:</h5>
+      <MDBRow className="justify-content-center">
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#dd4b39" }}
+          href="#"
+        >
+          <MDBIcon fab icon="google" />
+        </MDBBtn>
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#3b5998" }}
+          href="#"
+        >
+          <MDBIcon fab icon="facebook-f" />
+        </MDBBtn>
+        <MDBBtn
+          className="m-1"
+          size="lg"
+          floating
+          style={{ backgroundColor: "#ac2bac" }}
+          href="#"
+        >
+          <MDBIcon fab icon="instagram" />
+        </MDBBtn>
+      </MDBRow>
 
-            <div className="text-center text-dark">
-                <img src={logo}
-                    style={{ width: '185px' }} alt="logo" />
-                <h5 className="mt-4 pb-1 ">Get access to your Orders, Wishlist and Recommendations</h5>
-            </div>
-            <h5 className="mt-2 pb-1 text-dark text-center">Sign in with:</h5>
-            <MDBRow className='justify-content-center'>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#dd4b39' }} href='#'>
-                    <MDBIcon fab icon='google' />
-                </MDBBtn>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#3b5998' }} href='#'>
-                    <MDBIcon fab icon='facebook-f' />
-                </MDBBtn>
-                <MDBBtn className='m-1' size='lg' floating style={{ backgroundColor: '#ac2bac' }} href='#'>
-                    <MDBIcon fab icon='instagram' />
-                </MDBBtn>
-            </MDBRow>
-            <p className='text-dark mt-4'><b>Login to your account</b></p>
+      {loginError != "" && (
+        <Alert severity="error" className="mt-4">
+          {loginError.split(":")[1]}
+        </Alert>
+      )}
 
+      <p className="text-dark mt-4">
+        <b>Login to your account</b>
+      </p>
 
-            <MDBInput wrapperClass='mb-4 pb-1' label='Email address' id='form1' type='email' />
-            <MDBInput wrapperClass='mb-4 pb-1' label='Password' id='form2' type='password' />
+      {responseData?.statusCode == "201" && (
+        <Alert severity="success" className="mt-4">
+          Verification Email has been sent successfully to "{formData.email}".
+          Please verify your email to access the account.{" "}
+        </Alert>
+      )}
 
+      {loginFormError.email && (
+        <span className="error">{loginFormError.email}</span>
+      )}
 
-            <div className="text-center pt-1 mb-2 pb-1">
-                <MDBBtn className="mb-4 w-100 gradient-custom-2">Sign in</MDBBtn>
-                <a className="text-muted" href="#!">Forgot password?</a>
-            </div>
+      <MDBInput
+        wrapperClass="mb-4 pb-1"
+        label="Email address"
+        id="email"
+        type="email"
+        disabled={isLoginClicked}
+        onChange={handleInputChange}
+        defaultValue={formData.email}
+      />
 
-            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
-                <p className="mb-0 text-dark">Don't have an account?</p>
-                <Link to='/register'><MDBBtn outline className='mx-2' color='danger'>
-                    Register
-                </MDBBtn>
-                </Link>
-            </div>
+      {loginFormError.password && (
+        <span className="error">{loginFormError.password}</span>
+      )}
+      <MDBInput
+        wrapperClass="mb-4 pb-1"
+        label="Password"
+        id="password"
+        type="password"
+        disabled={isLoginClicked}
+        onChange={handleInputChange}
+        defaultValue={formData.password}
+      />
 
-        </div>
+      <div className="text-center pt-1 mb-2 pb-1">
+        <MDBBtn
+          className="mb-4 w-100 gradient-custom-2"
+          onClick={(e) => (apiLoading ? {} : handleButtonClick(e))}
+        >
+          {apiLoading ? "Please wait" : "Sign in"}
+        </MDBBtn>
+        <a className="text-muted" href="#!">
+          Forgot password?
+        </a>
+      </div>
 
-    );
+      <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-2">
+        <Link component="button" variant="body2" onClick={openRegisterModal}>
+          Don't have an account? Register
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default LoginModalBody;
