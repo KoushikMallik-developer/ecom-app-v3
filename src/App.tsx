@@ -14,6 +14,7 @@ import Register from './components/user/register'
 import Footer from './components/common/footer'
 import UserProfile from './components/user/UserProfile'
 import PageNotFound from './components/page_not_found/page_not_found'
+import SellerLanding from './components/seller/seller_home/seller_landing'
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
   return (
 
     <Router>
-      <div className="App" style={{fontFamily: "Signika"}}>
+      <div className="App bg-light" style={{fontFamily: "Signika"}}>
         <Header />
         <Navbar />
         <Routes>
@@ -36,6 +37,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="*" element={<PageNotFound/>} />
+          <Route path="/seller-home" element={<SellerLanding/>} />
         </Routes>
         <Footer />
       </div>
