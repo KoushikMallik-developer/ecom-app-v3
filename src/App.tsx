@@ -15,6 +15,8 @@ import Footer from './components/common/footer'
 import UserProfile from './components/user/UserProfile'
 import PageNotFound from './components/page_not_found/page_not_found'
 import SellerLanding from './components/seller/seller_home/seller_landing'
+import SellerLogin from './components/seller/seller_authentication/seller_login'
+import SellerRegister from './components/seller/seller_authentication/seller_register'
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="*" element={<PageNotFound/>} />
           <Route path="/seller-home" element={<SellerLanding/>} />
+          <Route path="/seller-login" element={<SellerLogin/>} />
+          <Route path="/seller-register" element={<SellerRegister/>} />
         </Routes>
         <Footer />
       </div>

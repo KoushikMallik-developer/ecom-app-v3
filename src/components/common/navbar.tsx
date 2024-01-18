@@ -124,7 +124,7 @@ const Navbar: React.FC = () => {
             </MDBNavbarToggler>
             <MDBCollapse show={showNavColor} navbar style={{ float: "right" }}>
               <MDBNavbarNav className="me-auto mb-2 mb-lg-0">
-                {pathname.includes('seller-home') ? <>
+                {pathname.includes('seller') ? <>
                   <MDBNavbarItem className="active">
                     <Link to="/seller-login">
                       <MDBNavbarLink
