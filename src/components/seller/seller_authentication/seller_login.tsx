@@ -32,7 +32,7 @@ export default function SellerLogin() {
 
         const isValidLoginForm = loginValidation(formData);
         if (isValidLoginForm) {
-            await handleLogin();
+            //await handleLogin();
         }
     };
 
@@ -59,41 +59,7 @@ export default function SellerLogin() {
         return isValid;
     };
 
-    const handleLogin = async () => {
-        try {
-            const requestData = JSON.stringify({
-                email: formData.email,
-                password: formData.password,
-            });
-            setAPILoading(true);
-            const data = await postData(seller_login, requestData, "handle seller login");
-            if (data?.statusCode == "200") {
-                setResponseData(data);
-                setLoginClick(true);
-                setLoginError("");
-                setLoginFormError({});
-
-                const token_data = {
-                    token: data.response["token"]["access"],
-                    "referesh_token:": data.response["token"]["refresh"],
-                    isLoggedIn: true,
-                };
-
-                localStorage.setItem("tokens", JSON.stringify(token_data));
-
-                /// when all done make them false
-                setLoginClick(false);
-                setAPILoading(false);
-            } else {
-                setAPILoading(false);
-                setLoginClick(false);
-                setLoginError(data?.response["errorMessage"]);
-            }
-        } catch (error) {
-            setAPILoading(false);
-            console.error("handleR login catch: ", error);
-        }
-    };
+    
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = event.target;

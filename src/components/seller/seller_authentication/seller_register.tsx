@@ -117,83 +117,22 @@ export default function SellerRegister() {
         const isValidRegisterFrom = sellerRegisterValidateForm(formData);
 
         if (isValidRegisterFrom) {
-            await handleSellerRegister(formData);
+            //await handleSellerRegister(formData);
         }
     };
 
 
-    const handleSellerRegister = async (reqUserData: SellerDataType) => {
-        try {
-            const requestData = JSON.stringify({
-                username: reqUserData.lname.toLowerCase(),
-                email: reqUserData.email,
-                fname: reqUserData.fname,
-                lname: reqUserData.lname,
-                gstin: reqUserData.gstin,
-                password1: reqUserData.password1,
-                password2: reqUserData.password2,
-            });
-            setAPILoading(true);
-            const data = await postData(
-                seller_register,
-                requestData,
-                "handle seller Register Click"
-            );
 
-            if (data?.statusCode == "201") {
-                setRegisterError("");
-                setisClickedForOTP(true);
-                setResponseData(data);
-                setAPILoading(false);
-            } else {
-                setAPILoading(false);
-                setisClickedForOTP(false);
-
-                setRegisterError(data?.response["errorMessage"]);
-            }
-        } catch (error) {
-            setAPILoading(false);
-            console.error("handle seller Register Click catch: ", error);
-        }
-    };
 
 
     /// handle OTP Work
     const onSellerOTPClick = async () => {
         const isValidOTP = otpValidation(formData);
         if (isValidOTP) {
-            await handleSellerOTP();
+            //await handleSellerOTP();
         }
     };
 
-    const handleSellerOTP = async () => {
-        try {
-            const requestData = JSON.stringify({
-                email: formData.email,
-                otp: formData.otp,
-            });
-            setAPILoading(true);
-            const data = await postData(seller_verifyOTP, requestData, "onOTPClick");
-            if (data?.status == true) {
-                setAPILoading(false);
-                setResponseData(data);
-                setisClickedForOTP(false);
-
-                const token_data = {
-                    token: data.response["token"]["access"],
-                    "referesh_token:": data.response["token"]["refresh"],
-                };
-
-                localStorage.setItem("tokens", JSON.stringify(token_data));
-            } else {
-                setAPILoading(false);
-                setOTPError(data?.response["errorMessage"]);
-            }
-        } catch (error) {
-            setAPILoading(false);
-            console.error("handle Seller OTP catch: ", error);
-        }
-    };
 
     /// On change of input fields
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
