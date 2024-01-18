@@ -59,7 +59,7 @@ export default function SellerLogin() {
         return isValid;
     };
 
-    
+
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = event.target;
@@ -91,9 +91,7 @@ export default function SellerLogin() {
                             </Alert>
                         )}
 
-                        <p className="text-dark mt-4">
-                            <b>Login to your account</b>
-                        </p>
+
 
                         {responseData?.statusCode == "201" && (
                             <Alert severity="success" className="mt-4">
@@ -110,11 +108,11 @@ export default function SellerLogin() {
                         {loginFormError.email && (
                             <span className="error">{loginFormError.email}</span>
                         )}
-                        <MDBInput wrapperClass='mb-4' label='Email' id='email' type='email' onChange={handleInputChange}/>
+                        <MDBInput wrapperClass='mb-4' label='Email' id='email' type='email' onChange={handleInputChange} />
                         {loginFormError.password && (
                             <span className="error">{loginFormError.password}</span>
                         )}
-                        <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' onChange={handleInputChange}/>
+                        <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' onChange={handleInputChange} />
 
 
                         <div className="text-center pt-1 mb-5 pb-1">
