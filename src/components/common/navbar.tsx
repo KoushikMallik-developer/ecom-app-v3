@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 
   const location = useLocation();
 
-  const { _, pathname, __ } = location;
+  const { _, pathname, _ } = location;
 
 
   useEffect(() => {
