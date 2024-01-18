@@ -57,6 +57,7 @@ export default function SellerRegister() {
             errors.lName = "Last name required";
             isValid = false;
         }
+        debugger
 
         if (userData.email.trim() === "") {
             console.error("Email is empty: ", userData.email);
@@ -187,14 +188,14 @@ export default function SellerRegister() {
                                 {registerFormError.fName && (
                                     <span className="error">{registerFormError.fName}</span>
                                 )}
-                                <MDBInput label='First Name' id='fName' type='text' onChange={handleInputChange}
+                                <MDBInput label='First Name' id='fname' type='text' onChange={handleInputChange}
                                 />
                             </MDBCol>
                             <MDBCol>
                                 {registerFormError.lName && (
                                     <span className="error">{registerFormError.lName}</span>
                                 )}
-                                <MDBInput label='Last Name' id='lName' type='text' onChange={handleInputChange}
+                                <MDBInput label='Last Name' id='lname' type='text' onChange={handleInputChange}
                                 />
                             </MDBCol>
                         </MDBRow>
@@ -204,7 +205,7 @@ export default function SellerRegister() {
                                 {registerFormError.email && (
                                     <span className="error">{registerFormError.email}</span>
                                 )}
-                                <MDBInput label='Email' id='form1' type='email' onChange={handleInputChange}
+                                <MDBInput label='Email' id='email' type='email' onChange={handleInputChange}
                                 />
                             </MDBCol>
                             <MDBCol>
@@ -228,7 +229,7 @@ export default function SellerRegister() {
                                 {registerFormError.password2 && (
                                     <span className="error">{registerFormError.password2}</span>
                                 )}
-                                <MDBInput label='Confirm Password' id='fopassword2' type='password' onChange={handleInputChange}
+                                <MDBInput label='Confirm Password' id='password2' type='password' onChange={handleInputChange}
                                 />
                             </MDBCol>
                         </MDBRow>
