@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
     if (token != null) {
       setIsLoggedIn(true);
     }
-  });
+    });
 
   const [showCartModal, setShowCartModal] = useState(false);
 

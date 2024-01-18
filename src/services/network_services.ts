@@ -1,11 +1,10 @@
 async function postData(url: string, requestData: any, apiTag: String) {
   try {
-    
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Add other headers if needed
       },
       body: requestData,
     });
@@ -15,30 +14,40 @@ async function postData(url: string, requestData: any, apiTag: String) {
       status: response.ok,
       statusCode: response.status.toString(),
     };
-    
+
     return finalResp;
   } catch (error) {
-    console.log("error : ", error);
+    console.error("error : ", error);
   }
 }
 
-async function getData(url: string) {
+async function getData(url: string, apiTag: String) {
   try {
+    var tokens = JSON.parse(localStorage.getItem("tokens") ?? "")
+    var token = "Bearer " + tokens['token'];
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": token
       },
     });
 
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch data");
-    }
+    var jsonData = await response.json();
+
+    console.log("getData -->", jsonData['data'])
+    console.log("GETAPI TAG -->", apiTag)
+    debugger
+    const finalResp: ApiResponseType = {
+      response: jsonData,
+      status: response.ok,
+      statusCode: response.status.toString(),
+    };
+
+    return finalResp;
   } catch (error) {
-    console.log("error : ", error);
-    //   throw new Error('Error occurred: ' + error.message);
+    console.error("error : ", error);
+
   }
 }
 
