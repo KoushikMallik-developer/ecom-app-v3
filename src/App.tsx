@@ -24,7 +24,7 @@ function App() {
   return (
 
     <Router>
-      <div className="App bg-light" style={{fontFamily: "Signika"}}>
+      <div className="App bg-primary bg-opacity-10">
         <Header />
         <Navbar />
         <Routes>
