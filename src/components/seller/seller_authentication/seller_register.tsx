@@ -1,10 +1,10 @@
-import { MDBBtn, MDBCol, MDBInput, MDBRow, MDBContainer } from "mdb-react-ui-kit";
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
-import { postData } from "../../../services/network_services";
+import {MDBBtn, MDBCol, MDBInput, MDBRow, MDBContainer} from "mdb-react-ui-kit";
+import {useNavigate} from 'react-router-dom';
+import {useState} from "react";
+import {postData} from "../../../services/network_services";
 import Validator from "../../../utils/validations";
-import { seller_register, seller_verifyOTP } from "../../../services/seller_api_urls";
-import { Alert } from "@mui/material";
+import {seller_register, seller_verifyOTP} from "../../../services/seller_api_urls";
+import {Alert} from "@mui/material";
 
 
 export default function SellerRegister() {
@@ -14,7 +14,6 @@ export default function SellerRegister() {
     const handleAuthChange = () => {
         navigate('/seller-login');
     };
-
 
 
     const [isClickedForOTP, setisClickedForOTP] = useState<boolean>(false);
@@ -57,7 +56,7 @@ export default function SellerRegister() {
             errors.lName = "Last name required";
             isValid = false;
         }
-        debugger
+
 
         if (userData.email.trim() === "") {
             console.error("Email is empty: ", userData.email);
@@ -92,8 +91,8 @@ export default function SellerRegister() {
         return isValid;
     };
 
-    const otpValidation = (userData: UserDataType) => {
-        let errors = { otp: "" };
+    const sellerOtpValidation = (userData: UserDataType) => {
+        let errors = {otp: ""};
         let isValid = true;
 
         if (userData.otp.trim() == "") {
@@ -111,33 +110,93 @@ export default function SellerRegister() {
     };
 
 
-    /// Handle Register Button Click
     const handleSellerRegisterClick = async (e: any) => {
         e.preventDefault();
         /// Validation
         const isValidRegisterFrom = sellerRegisterValidateForm(formData);
 
         if (isValidRegisterFrom) {
-            //await handleSellerRegister(formData);
+            await handleSellerRegister(formData);
         }
     };
 
 
+    const handleSellerOTP = async () => {
+        try {
+            const requestData = JSON.stringify({
+                email: formData.email,
+                otp: formData.otp,
+            });
+            setAPILoading(true);
+            const data = await postData(seller_verifyOTP, requestData, "onOTPClick");
+            if (data?.status == true) {
+                setAPILoading(false);
+                setResponseData(data);
+                setisClickedForOTP(false);
+                const token_data = {
+                    token: data.response["token"]["access"],
+                    "referesh_token:": data.response["token"]["refresh"],
+                };
+
+                localStorage.setItem("tokens", JSON.stringify(token_data));
+                handleAuthChange()
+            } else {
+                setAPILoading(false);
+                setOTPError(data?.response["errorMessage"]);
+            }
+        } catch (error) {
+            setAPILoading(false);
+            console.error("handle Seller OTP catch: ", error);
+        }
+    };
 
 
+    const handleSellerRegister = async (reqUserData: SellerDataType) => {
+        try {
+            const requestData = JSON.stringify({
+                username: reqUserData.lname.toLowerCase(),
+                email: reqUserData.email,
+                fname: reqUserData.fname,
+                lname: reqUserData.lname,
+                gstin: reqUserData.gstin,
+                password1: reqUserData.password1,
+                password2: reqUserData.password2,
+            });
+            setAPILoading(true);
+            const data = await postData(
+                seller_register,
+                requestData,
+                "handle seller Register Click"
+            );
 
-    /// handle OTP Work
+            if (data?.statusCode == "201") {
+                setRegisterError("");
+                setisClickedForOTP(true);
+                setResponseData(data);
+                setAPILoading(false);
+            } else {
+                setAPILoading(false);
+                setisClickedForOTP(false);
+
+                setRegisterError(data?.response["errorMessage"]);
+            }
+        } catch (error) {
+            setAPILoading(false);
+            console.error("handle seller Register Click catch: ", error);
+        }
+    };
+
+
     const onSellerOTPClick = async () => {
-        const isValidOTP = otpValidation(formData);
+        const isValidOTP = sellerOtpValidation(formData);
         if (isValidOTP) {
-            //await handleSellerOTP();
+            await handleSellerOTP();
         }
     };
 
 
-    /// On change of input fields
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = event.target;
+        const {id, value} = event.target;
         setFormData({
             ...formData,
             [id]: value,
@@ -147,18 +206,18 @@ export default function SellerRegister() {
 
     return <>
         <MDBContainer fluid>
-            <MDBRow >
+            <MDBRow>
 
                 <MDBCol sm={6} className="align-items-center justify-content-center d-flex">
                     <div className="d-flex flex-column">
 
                         <div className="text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                                style={{ width: '185px' }} alt="logo" />
+                                 style={{width: '185px'}} alt="logo"/>
                             <h4 className="mt-1 mb-3">We are The Shoppixa Team</h4>
                         </div>
 
-                        <hr />
+                        <hr/>
 
                         {responseData?.statusCode == "201" &&
                             registerError == "" &&
@@ -229,7 +288,8 @@ export default function SellerRegister() {
                                 {registerFormError.password2 && (
                                     <span className="error">{registerFormError.password2}</span>
                                 )}
-                                <MDBInput label='Confirm Password' id='password2' type='password' onChange={handleInputChange}
+                                <MDBInput label='Confirm Password' id='password2' type='password'
+                                          onChange={handleInputChange}
                                 />
                             </MDBCol>
                         </MDBRow>
@@ -248,27 +308,38 @@ export default function SellerRegister() {
                                 id="otp"
                                 type="text"
                                 onChange={handleInputChange}
-                                required
                             />
                         )}
 
+                        {
+                            isClickedForOTP ? <></> :
+                                <div className="text-center pt-1 mb-5 pb-1">
 
-                        <div className="text-center pt-1 mb-5 pb-1">
-                            <MDBBtn className="mb-4 w-100 gradient-custom-2" onClick={handleSellerRegisterClick}>Sign Up</MDBBtn>
+                                    {(apiLoading) ?
+                                        <MDBBtn className="mb-4 w-100 gradient-custom-2" disabled>
+                                    <span className="spinner-grow spinner-grow-sm" role="status"
+                                          aria-hidden="true"></span>
+                                            <span className="visually-hidden">Loading...</span>
+                                        </MDBBtn>
+                                        :
+                                        <MDBBtn className="mb-4 w-100 gradient-custom-2"
+                                                onClick={handleSellerRegisterClick}>
+                                            Sign Up</MDBBtn>
+                                    }
+                                </div>}
 
-                        </div>
 
-                        {!isClickedForOTP && <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
-                            <p className="mb-0">Already have an account?</p>
-                            <MDBBtn outline className='mx-2' color='danger' onClick={handleAuthChange}>
-                                Login
-                            </MDBBtn>
-                        </div>}
+                        {!isClickedForOTP &&
+                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
+                                <p className="mb-0">Already have an account?</p>
+                                <MDBBtn outline className='mx-2' color='danger' onClick={handleAuthChange}>
+                                    Login
+                                </MDBBtn>
+                            </div>}
 
-                        {apiLoading && <> Please wait....</>}
                         {(!apiLoading && isClickedForOTP) && <MDBBtn
                             outline
-                            className="mx-2"
+                            className="mb-5"
                             color="info"
                             type="submit"
                             onClick={onSellerOTPClick}
@@ -283,8 +354,10 @@ export default function SellerRegister() {
                         <div className="text-white px-3 py-4 p-md-5 mx-md-4  justify-content-center">
                             <h4 className="mb-4">We are more than just a company</h4>
                             <b>“Always deliver more than expected.”</b>
-                            <p className="small mb-0"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                            <p className="small mb-0"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                nostrud
                                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                             </p>
                         </div>

@@ -5,7 +5,6 @@ async function postData(url: string, requestData: any, apiTag: String) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Add other headers if needed
       },
       body: requestData,
     });
@@ -38,7 +37,6 @@ async function getData(url: string) {
     }
   } catch (error) {
     console.log("error : ", error);
-    //   throw new Error('Error occurred: ' + error.message);
   }
 }
 
