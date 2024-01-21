@@ -138,7 +138,7 @@ export default function SellerRegister() {
                     "referesh_token:": data.response["token"]["refresh"],
                 };
 
-                localStorage.setItem("tokens", JSON.stringify(token_data));
+                localStorage.setItem("seller_tokens", JSON.stringify(token_data));
                 handleAuthChange()
             } else {
                 setAPILoading(false);

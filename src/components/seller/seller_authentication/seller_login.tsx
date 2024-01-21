@@ -78,7 +78,7 @@ export default function SellerLogin() {
                     isLoggedIn: true,
                 };
 
-                localStorage.setItem("tokens", JSON.stringify(token_data));
+                localStorage.setItem("seller_tokens", JSON.stringify(token_data));
 
                 setLoginClick(false);
                 setAPILoading(false);
