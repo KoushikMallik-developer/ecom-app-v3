@@ -37,7 +37,6 @@ async function getData(url: string, apiTag: String) {
 
     console.log("getData -->", jsonData['data'])
     console.log("GETAPI TAG -->", apiTag)
-    debugger
     const finalResp: ApiResponseType = {
       response: jsonData,
       status: response.ok,
