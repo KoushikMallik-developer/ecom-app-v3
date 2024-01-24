@@ -22,6 +22,7 @@ import Register from "../user/register";
 import Cart from "../cart/cart_details";
 import {useState, useEffect} from "react";
 import {KeySquare, Store} from "lucide-react";
+import TopHeading from "./top_heading.tsx";
 
 const Navbar: React.FC = () => {
     const [signInModal, setSignInModal] = useState(false);
@@ -73,6 +74,7 @@ const Navbar: React.FC = () => {
 
     return (
         <>
+             <TopHeading/>
             <MDBNavbar expand="lg" className="fs-5 bg-primary bg-opacity-25 text-dark" light>
                 <MDBContainer fluid>
                     <MDBCol sm={2}>
