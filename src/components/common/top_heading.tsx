@@ -3,21 +3,18 @@ import sale from '../../assets/homepage/black-friday.png'
 import sale2 from '../../assets/homepage/sale2.png'
 // import sale3 from '../../assets/homepage/sale3.png'
 import Btn from "./btn.tsx";
+import CrossButton from "./btn2.tsx";
 
 
 export default function TopHeading() {
     return (
         <>
-            <MDBContainer className="d-flex align-items-start" style={{backgroundColor: '#191C1F'}}>
+            <MDBContainer className="d-flex align-items-center" style={{backgroundColor: '#191C1F'}}>
                 <MDBCol sm={4} className="text-center py-3">
-                    {/*<MDBRow*/}
-                    {/*    className="h-25 d-inline-block"*/}
-                    {/*    style={{width: 120, backgroundColor: "rgba(0, 0, 255, 0.1)"}}*/}
-                    {/*>*/}
                     <img
                         src={sale}
                         className='img-fluid'
-                        style={{width: '100px', height: '50px'}}
+                        style={{ height: '50px'}}
                         alt=''
                     />
                     {/*</MDBRow>*/}
@@ -29,13 +26,11 @@ export default function TopHeading() {
                         alt=''
                     />
                 </MDBCol>
-                <MDBCol sm={4} className="py-3">
-                    {/*<img
-                        src={sale3}
-                        className='img-fluid'
-                        alt=''
-                    />*/}
+                <MDBCol sm={3} className="py-3">
                     <Btn/>
+                </MDBCol>
+                <MDBCol sm={1}>
+                    <CrossButton/>
                 </MDBCol>
             </MDBContainer>
         </>

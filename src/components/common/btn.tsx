@@ -4,7 +4,7 @@ const Btn = () => {
     return (
         <MDBContainer>
             <MDBRow>
-                <MDBCol style={{width: '76px'}}>
+                <MDBCol style={{width: '100%'}}>
                     <MDBBtn color="warning" className="text-dark">
                         Shop Now
                         <MDBIcon icon="arrow-right" className="ml-1 text-dark px-1"/>
