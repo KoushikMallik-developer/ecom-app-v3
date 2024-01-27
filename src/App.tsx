@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import Header from './components/common/header'
+import Header from './components/common/header/web_header/header.tsx'
 import Home from './components/common/home'
 import ProductList from './components/product/product_list'
 import ProductDetail from './components/product/product_details'
@@ -23,7 +23,7 @@ function App() {
   return (
 
     <Router>
-      <div className="App bg-light bg-opacity-10">
+      <div className="App bg-primary bg-opacity-10">
         <Header />
         <Routes>
         <Route path="/" element={<Home/>} />

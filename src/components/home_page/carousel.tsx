@@ -1,40 +1,30 @@
-import {
-  MDBCarousel,
-  MDBCarouselItem,
-} from 'mdb-react-ui-kit';
+import { MDBCarousel, MDBCarouselItem, MDBCarouselCaption } from 'mdb-react-ui-kit';
 
 export default function HomeCarousel() {
   return (
-    <MDBCarousel showIndicators fade interval={3000} dark > 
-    {/* MDBCarousel -- showControls -- arrows are not showing   */}
-      <MDBCarouselItem
-        className='w-100 d-block'
-        itemId={1}
-        src='https://mdbootstrap.com/img/new/slides/041.jpg'
-          alt='...'
-      >
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+    <MDBCarousel showIndicators showControls fade>
+      <MDBCarouselItem itemId={1}>
+        <img src='https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg' className='d-block w-100' alt='...' />
+        <MDBCarouselCaption>
+          <h5>First slide label</h5>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </MDBCarouselCaption>
       </MDBCarouselItem>
 
-      <MDBCarouselItem
-        className='w-100 d-block'
-        itemId={2}
-        src='https://mdbootstrap.com/img/Photos/Slides/img%20(35).jpg'
-        alt='...'
-      >
-        <h5>Second slide label</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <MDBCarouselItem itemId={2}>
+        <img src='https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg' className='d-block w-100' alt='...' />
+        <MDBCarouselCaption>
+          <h5>Second slide label</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </MDBCarouselCaption>
       </MDBCarouselItem>
 
-      <MDBCarouselItem
-        className='w-100 d-block'
-        itemId={3}
-        src='https://mdbootstrap.com/img/Photos/Slides/img%20(40).jpg'
-        alt='...'
-      >
-        <h5>Third slide label</h5>
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      <MDBCarouselItem itemId={3}>
+        <img src='https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg' className='d-block w-100' alt='...' />
+        <MDBCarouselCaption>
+          <h5>Third slide label</h5>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+        </MDBCarouselCaption>
       </MDBCarouselItem>
     </MDBCarousel>
   );

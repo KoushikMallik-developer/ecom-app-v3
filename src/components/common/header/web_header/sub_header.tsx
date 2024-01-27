@@ -14,8 +14,8 @@ export default function SubHeader() {
   const [openNav, setOpenNav] = useState(false);
 
   return (
-    <MDBNavbar expand='lg' dark bgColor='dark'>
-      <MDBContainer fluid>
+    <MDBNavbar expand='lg' dark bgColor='dark' >
+      <MDBContainer fluid className="mx-5 px-5">
         <MDBNavbarBrand href='#'>Navbar</MDBNavbarBrand>
         <MDBNavbarToggler
           type='button'
@@ -25,7 +25,7 @@ export default function SubHeader() {
         >
           <MDBIcon icon='bars' fas />
         </MDBNavbarToggler>
-        <MDBCollapse navbar show={openNav}>
+        <MDBCollapse navbar open={openNav}>
           <MDBNavbarNav>
             <MDBNavbarItem>
               <MDBNavbarLink active aria-current='page' href='#'>

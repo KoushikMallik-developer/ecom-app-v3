@@ -8,6 +8,9 @@
     font-family: 'Ubuntu', sans-serif;
 }
 
+.brand-header-text-color {
+    color: #000000;
+}
 
 .navbar-bg {
     background: #fbb8db

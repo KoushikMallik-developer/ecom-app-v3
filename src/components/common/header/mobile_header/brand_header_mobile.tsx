@@ -1,12 +1,11 @@
 import {Link, useLocation} from "react-router-dom";
 import {
-    MDBCol,
     MDBContainer,
     MDBIcon,
     MDBDropdown,
     MDBDropdownItem,
     MDBDropdownToggle,
-    MDBDropdownMenu,
+    MDBDropdownMenu, MDBNavbarBrand, MDBInputGroup, MDBBtn,
 } from "mdb-react-ui-kit";
 import {
     MDBNavbar,
@@ -16,22 +15,24 @@ import {
     MDBNavbarToggler,
     MDBCollapse,
 } from "mdb-react-ui-kit";
-import logo from "../../assets/brand/logo-no-background.png";
-import Login from "../user/login";
-import Register from "../user/register";
-import Cart from "../cart/cart_details";
-import React, {useState, useEffect} from "react";
+import logo from "../../../../assets/brand/logo-no-background.png";
+import Login from "../../../user/login.tsx";
+import Register from "../../../user/register.tsx";
+import Cart from "../../../cart/cart_details.tsx";
+import {useState, useEffect} from "react";
 import {KeySquare, Store} from "lucide-react";
 import {useMediaQuery} from "react-responsive";
 
-const BrandHeader: React.FC = () => {
+const BrandHeaderMobile: React.FC = () => {
     const [signInModal, setSignInModal] = useState(false);
-    const [showNavColor, setShowNavColor] = useState(false);
     const [signUpModal, setSignUpModal] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showCartModal, setShowCartModal] = useState(false);
 
-      const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const [openNavNoTogglerSecond, setOpenNavNoTogglerSecond] = useState(false);
+
+
+    const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
 
 
     const toggleShowSignInModal = () => setSignInModal(!signInModal);
@@ -78,7 +79,7 @@ const BrandHeader: React.FC = () => {
 
     return (
         <>
-            <MDBNavbar expand="lg" className="fs-5 bg-light text-dark" light>
+            {/*<MDBNavbar expand="lg" className="fs-5 bg-light text-dark" light>
                 <MDBContainer fluid>
                     <MDBCol sm={2}>
                         <Link to="/">
@@ -105,7 +106,7 @@ const BrandHeader: React.FC = () => {
                             <MDBIcon icon="bars" fas/>
                         </MDBNavbarToggler>
 
-                        <MDBCollapse show={showNavColor} navbar style={{float: "right"}}>
+                        <MDBCollapse show={showNavColor} navbar>
                             <MDBNavbarNav className="me-auto mb-2 mb-lg-0">
                                 {pathname.includes('seller') ? <>
                                         <MDBNavbarItem className="">
@@ -243,6 +244,172 @@ const BrandHeader: React.FC = () => {
                         </MDBCollapse>
                     </MDBCol>
                 </MDBContainer>
+            </MDBNavbar>*/}
+
+            <MDBNavbar expand='lg' light bgColor='light'>
+                <MDBContainer fluid>
+                    <MDBNavbarBrand>
+                        <Link to="/">
+                            <img
+                                src={logo}
+                                height="30"
+                                alt=""
+                                loading="lazy"
+                                className="py-0"
+                            />
+                        </Link>
+                    </MDBNavbarBrand>
+                    <MDBNavbarToggler
+                        type='button'
+                        data-target='#navbarTogglerDemo02'
+                        aria-controls='navbarTogglerDemo02'
+                        aria-expanded='false'
+                        aria-label='Toggle navigation'
+                        onClick={() => setOpenNavNoTogglerSecond(!openNavNoTogglerSecond)}
+                    >
+                        <MDBIcon icon='bars' fas/>
+                    </MDBNavbarToggler>
+                    <MDBCollapse navbar open={openNavNoTogglerSecond}>
+                        <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+                            {pathname.includes('seller') ? <>
+                                    <MDBNavbarItem className="">
+                                        <Link to="/seller-login">
+                                            <MDBNavbarLink
+                                                aria-current="page"
+                                                className=""
+
+                                            >
+                                                {!isLoggedIn && (
+                                                    <>
+                                                        <KeySquare className="mx-2 my-0"/>
+                                                        <b>Seller Login</b>
+                                                    </>
+                                                )}
+                                            </MDBNavbarLink>
+                                        </Link>
+                                    </MDBNavbarItem>
+                                    <MDBNavbarItem className="">
+                                        <Link to="/seller-register">
+                                            <MDBNavbarLink
+                                                aria-current="page"
+                                                className=""
+
+                                            >
+                                                {!isLoggedIn && (
+                                                    <>
+                                                        <Store className="mx-2 my-0"/>
+                                                        <b>Start Selling</b>
+                                                    </>
+                                                )}
+                                            </MDBNavbarLink>
+                                        </Link>
+                                    </MDBNavbarItem>
+                                </>
+                                : <>
+                                    <MDBNavbarItem>
+                                        {!isTabletOrMobile && <MDBNavbarLink className="">
+                                            <MDBIcon icon="search" className=""/>
+                                        </MDBNavbarLink>}
+                                    </MDBNavbarItem>
+                                    <MDBNavbarItem className="">
+                                        <Link to="/seller-home">
+                                            <MDBNavbarLink
+                                                aria-current="page"
+                                                className=""
+
+                                            >
+                                                {!isLoggedIn && (
+                                                    <>
+                                                        <MDBIcon
+                                                            className="mx-2"
+                                                            icon='"fas fa-handshake'
+                                                        ></MDBIcon>
+                                                        <b>Become A Seller</b>
+                                                    </>
+                                                )}
+                                            </MDBNavbarLink>
+                                        </Link>
+                                    </MDBNavbarItem>
+                                    <MDBNavbarItem>
+                                        <MDBDropdown>
+                                            <MDBDropdownToggle
+                                                tag="a"
+                                                className="nav-link"
+                                                role="button"
+                                            >
+                                                <MDBIcon className="mx-2" icon="fas fa-user"></MDBIcon>
+                                                <b>Account</b>
+                                            </MDBDropdownToggle>
+                                            <MDBDropdownMenu>
+
+                                                {isLoggedIn ?
+                                                    <Link to="/profile">
+                                                        <MDBDropdownItem link childTag="button">
+                                                            My Profile
+                                                        </MDBDropdownItem>
+                                                    </Link> :
+                                                    <MDBDropdownItem link childTag="button"
+                                                                     onClick={toggleShowSignInModal}>
+                                                        My Profile
+                                                    </MDBDropdownItem>
+                                                }
+
+                                                {isLoggedIn ? <MDBDropdownItem link childTag="button">
+                                                    Wishlist
+                                                </MDBDropdownItem> : <MDBDropdownItem link childTag="button"
+                                                                                      onClick={toggleShowSignInModal}>
+                                                    Wishlist
+                                                </MDBDropdownItem>}
+
+
+                                                {isLoggedIn ? <MDBDropdownItem link childTag="button">
+                                                    Orders
+                                                </MDBDropdownItem> : <MDBDropdownItem link childTag="button"
+                                                                                      onClick={toggleShowSignInModal}>
+                                                    Orders
+                                                </MDBDropdownItem>}
+
+
+                                                {isLoggedIn ? <MDBDropdownItem link childTag="button">
+                                                    Gift Cards
+                                                </MDBDropdownItem> : <MDBDropdownItem link childTag="button"
+                                                                                      onClick={toggleShowSignInModal}>
+                                                    Gift Cards
+                                                </MDBDropdownItem>}
+
+
+                                                {isLoggedIn ? <MDBDropdownItem link childTag="button">
+                                                    Rewards
+                                                </MDBDropdownItem> : <MDBDropdownItem link childTag="button"
+                                                                                      onClick={toggleShowSignInModal}>
+                                                    Rewards
+                                                </MDBDropdownItem>}
+
+
+                                                {logout_btn_nav_item}
+                                            </MDBDropdownMenu>
+                                        </MDBDropdown>
+                                    </MDBNavbarItem>
+
+
+                                    <MDBNavbarItem>
+                                        <MDBNavbarLink
+                                            onClick={() => toggleCartModal()}
+                                            className=""
+                                            tag={Link}
+                                        >
+                                            <MDBIcon className="mx-2" icon="fas fa-cart-plus"></MDBIcon>
+                                            <b>Cart</b>
+                                        </MDBNavbarLink>
+                                    </MDBNavbarItem>
+                                </>}
+                        </MDBNavbarNav>
+                        <MDBInputGroup tag="form" className='d-flex w-auto mb-3'>
+                            <input className='form-control' placeholder="Type query" aria-label="Search" type='Search'/>
+                            <MDBBtn outline>Search</MDBBtn>
+                        </MDBInputGroup>
+                    </MDBCollapse>
+                </MDBContainer>
             </MDBNavbar>
 
             <MDBContainer>
@@ -270,4 +437,4 @@ const BrandHeader: React.FC = () => {
     );
 };
 
-export default BrandHeader;
+export default BrandHeaderMobile;

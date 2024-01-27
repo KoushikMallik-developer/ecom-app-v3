@@ -10,34 +10,35 @@ import {
   MDBDropdown,
   MDBDropdownMenu,
   MDBDropdownToggle,
-  MDBDropdownItem,
+  MDBDropdownItem, MDBBtn, MDBNavbarBrand,
 } from 'mdb-react-ui-kit';
 
 import  { useState } from 'react';
 
 const CategoryHeader = () => {
+  const [openBasic, setOpenBasic] = useState(false);
 
-  const [openNavCentred, setOpenNavCentred] = useState(false);
+  // const categories = ["men"];
 
   return (
-    <MDBNavbar expand='lg' light bgColor='light' className="fs-5">
-      <MDBContainer fluid>
+    <MDBNavbar expand='lg' light bgColor='light'>
+      <MDBContainer fluid className="mx-5 px-5">
+        <MDBNavbarBrand href='#'>Brand</MDBNavbarBrand>
+
         <MDBNavbarToggler
-          type='button'
-          data-target='#navbarCenteredExample'
-          aria-controls='navbarCenteredExample'
+          aria-controls='navbarSupportedContent'
           aria-expanded='false'
           aria-label='Toggle navigation'
-          onClick={() => setOpenNavCentred(!openNavCentred)}
+          onClick={() => setOpenBasic(!openBasic)}
         >
           <MDBIcon icon='bars' fas />
         </MDBNavbarToggler>
 
-        <MDBCollapse navbar show={openNavCentred} className="justify-content-center">
-          <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
+        <MDBCollapse navbar open={openBasic}>
+          <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'>
-                Home
+              <MDBNavbarLink active aria-current='page' href='#'>
+                Brand
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
@@ -46,7 +47,7 @@ const CategoryHeader = () => {
 
             <MDBNavbarItem>
               <MDBDropdown>
-                <MDBDropdownToggle tag='a' className='nav-link'>
+                <MDBDropdownToggle tag='a' className='nav-link' role='button'>
                   Dropdown
                 </MDBDropdownToggle>
                 <MDBDropdownMenu>
@@ -56,12 +57,18 @@ const CategoryHeader = () => {
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>
-                Disabled
-              </MDBNavbarLink>
-            </MDBNavbarItem>
+
+            {/*<MDBNavbarItem>*/}
+            {/*  <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>*/}
+            {/*    Disabled*/}
+            {/*  </MDBNavbarLink>*/}
+            {/*</MDBNavbarItem>*/}
           </MDBNavbarNav>
+
+          <form className='d-flex input-group w-auto'>
+            <input type='search' className='form-control' placeholder='Type query' aria-label='Search' />
+            <MDBBtn color='primary'>Search</MDBBtn>
+          </form>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>

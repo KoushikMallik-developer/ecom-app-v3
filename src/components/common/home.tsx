@@ -1,6 +1,5 @@
 import HomeCarousel from '../home_page/carousel';
-import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
-import HomepageCategories from '../home_page/categories';
+import { MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 import bank_offer_img from '..//..//assets/homepage/homepage_bank_offer.png'
 import TrendingProductCard from '../home_page/trending_products';
 import OfferCard from '../home_page/offer_card';
@@ -172,16 +171,16 @@ const Home = () => {
   };
 
   return (
-    <div className='my-2'>
+    <div className='my-2 mx-5'>
       
       <MDBContainer fluid className='px-5'>
         <MDBRow>
-          <MDBCol sm={3}>
-            <HomepageCategories />
-          </MDBCol>
-          <MDBCol sm={9} className='my-4'>
+          {/*<MDBCol sm={3}>*/}
+          {/*  <HomepageCategories />*/}
+          {/*</MDBCol>*/}
+          {/*<MDBCol sm={9} className='my-auto mx-auto'>*/}
             <HomeCarousel />
-          </MDBCol>
+          {/*</MDBCol>*/}
         </MDBRow>
 
         <MDBRow className='shadow-5-strong mx-0 d-flex justify-content-center mb-4'>
@@ -217,8 +216,6 @@ const Home = () => {
         </MDBRow>
 
       </MDBContainer>
-
-
     </div>
   );
 }
