@@ -20,15 +20,20 @@ import logo from "../../assets/brand/logo-no-background.png";
 import Login from "../user/login";
 import Register from "../user/register";
 import Cart from "../cart/cart_details";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {KeySquare, Store} from "lucide-react";
+import {useMediaQuery} from "react-responsive";
 
-const Navbar: React.FC = () => {
+const BrandHeader: React.FC = () => {
     const [signInModal, setSignInModal] = useState(false);
     const [showNavColor, setShowNavColor] = useState(false);
     const [signUpModal, setSignUpModal] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showCartModal, setShowCartModal] = useState(false);
+
+      const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+
+
     const toggleShowSignInModal = () => setSignInModal(!signInModal);
     const toggleShowSignUpModal = () => {
         setSignUpModal(!signUpModal);
@@ -73,7 +78,7 @@ const Navbar: React.FC = () => {
 
     return (
         <>
-            <MDBNavbar expand="lg" className="fs-5 bg-primary bg-opacity-25 text-dark" light>
+            <MDBNavbar expand="lg" className="fs-5 bg-light text-dark" light>
                 <MDBContainer fluid>
                     <MDBCol sm={2}>
                         <Link to="/">
@@ -86,7 +91,9 @@ const Navbar: React.FC = () => {
                             />
                         </Link>
                     </MDBCol>
+
                     <MDBCol sm={10}>
+
                         <MDBNavbarToggler
                             type="button"
                             data-target="#navbarColor02"
@@ -97,6 +104,7 @@ const Navbar: React.FC = () => {
                         >
                             <MDBIcon icon="bars" fas/>
                         </MDBNavbarToggler>
+
                         <MDBCollapse show={showNavColor} navbar style={{float: "right"}}>
                             <MDBNavbarNav className="me-auto mb-2 mb-lg-0">
                                 {pathname.includes('seller') ? <>
@@ -135,9 +143,9 @@ const Navbar: React.FC = () => {
                                     </>
                                     : <>
                                         <MDBNavbarItem>
-                                            <MDBNavbarLink className="">
+                                            {!isTabletOrMobile &&  <MDBNavbarLink className="">
                                                 <MDBIcon icon="search" className=""/>
-                                            </MDBNavbarLink>
+                                            </MDBNavbarLink>}
                                         </MDBNavbarItem>
                                         <MDBNavbarItem className="">
                                             <Link to="/seller-home">
@@ -262,4 +270,4 @@ const Navbar: React.FC = () => {
     );
 };
 
-export default Navbar;
+export default BrandHeader;

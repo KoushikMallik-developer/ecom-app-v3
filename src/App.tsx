@@ -1,7 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/common/header'
-import Navbar from './components/common/navbar'
 import Home from './components/common/home'
 import ProductList from './components/product/product_list'
 import ProductDetail from './components/product/product_details'
@@ -17,7 +16,6 @@ import PageNotFound from './components/page_not_found/page_not_found'
 import SellerLanding from './components/seller/seller_home/seller_landing'
 import SellerLogin from './components/seller/seller_authentication/seller_login'
 import SellerRegister from './components/seller/seller_authentication/seller_register'
-import NewUI from "./components/common/new_ui/new_ui.tsx";
 
 function App() {
 
@@ -25,9 +23,8 @@ function App() {
   return (
 
     <Router>
-      <div className="App bg-primary bg-opacity-10">
+      <div className="App bg-light bg-opacity-10">
         <Header />
-        <Navbar />
         <Routes>
         <Route path="/" element={<Home/>} />
           <Route path="/products" element={<ProductList/>} />
@@ -43,7 +40,6 @@ function App() {
           <Route path="/seller-home" element={<SellerLanding/>} />
           <Route path="/seller-login" element={<SellerLogin/>} />
           <Route path="/seller-register" element={<SellerRegister/>} />
-            <Route path="/new" element={<NewUI/>}/>
         </Routes>
         <Footer />
       </div>
