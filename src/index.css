@@ -12,6 +12,17 @@
     color: #000000;
 }
 
+.brand-sub-header-text-color {
+    color: #ffffff;
+}
+
+.vertical-line {
+  height: 50px;
+  border-left: 2px solid #ffffff;
+  margin: 0 20px;
+}
+
+
 .navbar-bg {
     background: #fbb8db
 }

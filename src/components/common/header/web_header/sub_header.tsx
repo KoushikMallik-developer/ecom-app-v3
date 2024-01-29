@@ -1,51 +1,74 @@
-import { useState } from 'react';
 import {
     MDBContainer,
     MDBNavbar,
-    MDBNavbarBrand,
-    MDBNavbarToggler,
     MDBNavbarNav,
     MDBNavbarItem,
-    MDBNavbarLink,
-    MDBCollapse, MDBIcon
+    MDBNavbarLink, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText
 } from 'mdb-react-ui-kit';
+import {SlidersHorizontal} from "lucide-react";
+
+import MenImage from "../../../../assets/homepage/men_osmetic.png"
 
 export default function SubHeader() {
-  const [openNav, setOpenNav] = useState(false);
 
-  return (
-    <MDBNavbar expand='lg' dark bgColor='dark' >
-      <MDBContainer fluid className="mx-5 px-5">
-        <MDBNavbarBrand href='#'>Navbar</MDBNavbarBrand>
-        <MDBNavbarToggler
-          type='button'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-          onClick={() => setOpenNav(!openNav)}
-        >
-          <MDBIcon icon='bars' fas />
-        </MDBNavbarToggler>
-        <MDBCollapse navbar open={openNav}>
-          <MDBNavbarNav>
-            <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='#'>
-                Home
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Features</MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>
-                Disabled
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-          </MDBNavbarNav>
-        </MDBCollapse>
-      </MDBContainer>
-    </MDBNavbar>
-  );
+    return (
+        <MDBNavbar style={{height: "90px",backgroundColor: '#262626'}}>
+            <MDBContainer fluid className="mx-5 px-5 ">
+                <MDBNavbarNav>
+
+                    <MDBRow className="d-flex justify-content-center align-items-center">
+                        <MDBCol md="4" className="d-flex justify-content-between">
+                            <MDBNavbarItem>
+                                <MDBNavbarLink className="d-flex mt-1 text-white">
+                                    <SlidersHorizontal strokeWidth={3}/> <h4 className="mx-2 fw-bolder">Categories</h4>
+                                </MDBNavbarLink>
+                            </MDBNavbarItem>
+                            <div className="vertical-line"></div>
+
+                        </MDBCol>
+
+                        <MDBCol md="4" className="d-flex justify-content-between">
+                            <MDBNavbarItem>
+                                <MDBNavbarLink>
+                                    <MDBCard
+                                        style={{maxHeight: "60px", backgroundColor: "transparent"}}
+                                        className="text-light">
+                                        <MDBRow className="py-0">
+                                            <MDBCol md='2' className="py-0">
+                                                <MDBCardImage
+                                                    className="py-0"
+                                                    src={MenImage}
+                                                    height="50"
+                                                    alt='...' />
+                                            </MDBCol>
+                                            <MDBCol md='10'>
+                                                <MDBCardBody className="py-0 ">
+                                                    <MDBCardTitle>Weekly Men's Toiletries Coupons</MDBCardTitle>
+                                                    <MDBCardText>
+                                                        We extend exclusive discounts.
+                                                    </MDBCardText>
+                                                </MDBCardBody>
+                                            </MDBCol>
+                                        </MDBRow>
+                                    </MDBCard>
+                                </MDBNavbarLink>
+                            </MDBNavbarItem>
+                            <div className="vertical-line"></div>
+
+                        </MDBCol>
+
+
+                        <MDBCol md="4">
+                            <MDBNavbarItem>
+                                <MDBNavbarLink>
+                                    <h6 className="brand-sub-header-text-color pt-1"> YOHO</h6>
+                                </MDBNavbarLink>
+                            </MDBNavbarItem>
+                        </MDBCol>
+
+                    </MDBRow>
+                </MDBNavbarNav>
+            </MDBContainer>
+        </MDBNavbar>
+    );
 }

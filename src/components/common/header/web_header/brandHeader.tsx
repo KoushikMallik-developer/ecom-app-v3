@@ -1,19 +1,14 @@
 import {Link, useLocation} from "react-router-dom";
 import {
     MDBContainer,
-    MDBIcon,
     MDBInputGroup,
-    MDBDropdownItem,
-    MDBDropdownToggle,
-    MDBDropdownMenu, MDBNavbarBrand, MDBBtn, MDBInput, MDBCol,
+    MDBDropdownItem,MDBNavbarBrand, MDBBtn, MDBInput, MDBCol,
 } from "mdb-react-ui-kit";
 import {
     MDBNavbar,
     MDBNavbarNav,
     MDBNavbarItem,
     MDBNavbarLink,
-    MDBNavbarToggler,
-    MDBCollapse,
 } from "mdb-react-ui-kit";
 import logo from "../../../../assets/brand/logo-no-background.png";
 import Login from "../../../user/login.tsx";
@@ -22,7 +17,6 @@ import Cart from "../../../cart/cart_details.tsx";
 import React, {useState, useEffect} from "react";
 import {useMediaQuery} from "react-responsive";
 import {Facebook, Instagram, Search, Twitter} from "lucide-react";
-import {red} from "@mui/material/colors";
 
 const BrandHeader: React.FC = () => {
     const [signInModal, setSignInModal] = useState(false);
@@ -39,7 +33,7 @@ const BrandHeader: React.FC = () => {
         setSignUpModal(!signUpModal);
     };
     const location = useLocation();
-    const {pathname} = location;
+    const {_,pathname, __} = location;
     useEffect(() => {
         let token: any = localStorage.getItem("tokens");
         token = JSON.parse(token);
