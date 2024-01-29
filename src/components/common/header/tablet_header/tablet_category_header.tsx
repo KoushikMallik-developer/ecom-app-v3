@@ -9,7 +9,7 @@ import {
 } from "mdb-react-ui-kit";
 import {BadgePercent, Heart, ShoppingBag, SlidersHorizontal, Users} from "lucide-react";
 
-const TabletHeader = () => {
+const TabletCategoryHeader = () => {
     return (
 
         <MDBNavbar style={{height: "60px", backgroundColor: '#262626'}}>
@@ -25,15 +25,15 @@ const TabletHeader = () => {
                             </MDBNavbarItem>
                         </MDBCol>
 
-                        <MDBCol md="8" className="d-flex justify-content-center align-items-center text-center">
+                        <MDBCol md="8" className="d-flex justify-content-end align-items-center text-center">
                             <MDBNavbarItem>
                                 <MDBNavbarLink className="d-flex text-white">
                                     <BadgePercent size={20}/> <h6 className="mx-2">Offers</h6>
                                     <Heart size={20}/> <h6 className="mx-2">Wishlist</h6>
                                     <ShoppingBag size={20}/> <h6 className="mx-2">Cart</h6>
-                                    <ShoppingBag size={20}/> <h6 className="mx-2">Wishlist</h6>
                                     <Users size={20}/> <h6 className="mx-2">Sign In</h6>
                                 </MDBNavbarLink>
+
                             </MDBNavbarItem>
                         </MDBCol>
 
@@ -43,4 +43,4 @@ const TabletHeader = () => {
         </MDBNavbar>
     )
 }
-export default TabletHeader
+export default TabletCategoryHeader

@@ -39,12 +39,6 @@ const CategoryHeader = () => {
                             </MDBDropdownMenu>
                         </MDBDropdown>
                     </MDBNavbarItem>
-
-                    {/*<MDBNavbarItem>*/}
-                    {/*  <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>*/}
-                    {/*    Disabled*/}
-                    {/*  </MDBNavbarLink>*/}
-                    {/*</MDBNavbarItem>*/}
                 </MDBNavbarNav>
 
 

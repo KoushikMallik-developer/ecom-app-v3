@@ -1,9 +1,11 @@
-import BrandHeader from "./brandHeader.tsx";
-import SubHeader from "./sub_header.tsx";
+import BrandHeader from "./web_header/brandHeader.tsx";
+import SubHeader from "./web_header/sub_header.tsx";
 import {useMediaQuery} from 'react-responsive'
-import BrandHeaderMobile from "../mobile_header/brand_header_mobile.tsx";
-import CategoryHeader from "./category_header.tsx";
-import TabletHeader from "../tablet_header/tablet_header.tsx";
+import BrandHeaderMobile from "./mobile_header/brand_header_mobile.tsx";
+import CategoryHeader from "./web_header/category_header.tsx";
+import TabletCategoryHeader from "./tablet_header/tablet_category_header.tsx";
+import TabletBrandHeader from "./tablet_header/tablet_brand_header.tsx";
+import TabletSubHeader from "./tablet_header/tablet_sub_haeder.tsx";
 
 
 const Header = () => {
@@ -15,7 +17,9 @@ const Header = () => {
         <div>
             {isMobile ? <BrandHeaderMobile/> :
                 isTablet ? <>
-                        <TabletHeader/>
+                        <TabletBrandHeader/>
+                        <TabletSubHeader/>
+                        <TabletCategoryHeader/>
                     </> :
                     <>
                         <div>
