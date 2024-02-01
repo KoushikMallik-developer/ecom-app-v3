@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const TabletSubHeader = () => {
     return (
-        <MDBNavbar expand='lg' light bgColor='light' style={{height:"0px"}}>
+        <MDBNavbar expand='lg' style={{height:"250px", backgroundColor:"light"}}>
             <MDBContainer fluid className="mx-5 px-5 mb-3">
 
                 <MDBNavbarNav className=''>
