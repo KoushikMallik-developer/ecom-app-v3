@@ -17,6 +17,7 @@ import PageNotFound from './components/page_not_found/page_not_found'
 import SellerLanding from './components/seller/seller_home/seller_landing'
 import SellerLogin from './components/seller/seller_authentication/seller_login'
 import SellerRegister from './components/seller/seller_authentication/seller_register'
+import SellerDashboard from "./components/seller/seller_dashboard/seller_dashboard.tsx";
 
 function App() {
 
@@ -42,6 +43,10 @@ function App() {
           <Route path="/seller-home" element={<SellerLanding/>} />
           <Route path="/seller-login" element={<SellerLogin/>} />
           <Route path="/seller-register" element={<SellerRegister/>} />
+          <Route path="/seller_dashboard" element={<SellerDashboard/>} />
+          <Route path="/seller_products" element={<SellerDashboard/>} />
+          <Route path="/seller_create_products" element={<SellerDashboard/>} />
+          <Route path="/seller_reports" element={<SellerDashboard/>} />
         </Routes>
         <Footer />
       </div>
