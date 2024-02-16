@@ -18,13 +18,9 @@ const LeftContent = (props: any) => {
                                                                                              className="text-dark"> Report(s)</Link></MDBListGroupItem>
                 <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Add Offer(s)</MDBListGroupItem>
                 <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Update Details</MDBListGroupItem>
-                {/* <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Budget Tracker</MDBListGroupItem>
-            <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Financial Goals</MDBListGroupItem>
-            <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Milestones</MDBListGroupItem>
-            <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Loan Calculator</MDBListGroupItem>
-            <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Currency Converter</MDBListGroupItem>
-            <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Update
-                Details</MDBListGroupItem>*/}
+                <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Order Tracker</MDBListGroupItem>
+                <MDBListGroupItem noBorders className="bg-transparent shadow-5-strong">Recycle Bin</MDBListGroupItem>
+
                 <hr/>
                 <Button variant="outlined" color="error" size="large">
                     Log Out
